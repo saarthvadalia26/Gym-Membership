@@ -1,0 +1,97 @@
+// Gym Subscription Management — Prisma schema
+// Money is stored as integer paise (1 INR = 100 paise) — never floats.
+// Multi-tenant: every Member, Plan, Subscription, CheckIn belongs to one Gym.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Gym {
+  id            String         @id @default(cuid())
+  name          String
+  address       String?
+  phone         String?
+  createdAt     DateTime       @default(now())
+  users         User[]
+  members       Member[]
+  plans         Plan[]
+  subscriptions Subscription[]
+  checkIns      CheckIn[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  gymId        String
+  createdAt    DateTime @default(now())
+  gym          Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  @@index([gymId])
+}
+
+model Member {
+  id               String         @id @default(cuid())
+  gymId            String
+  fullName         String
+  phoneNumber      String
+  joinDate         DateTime       @default(now())
+  emergencyContact String?
+  createdAt        DateTime       @default(now())
+  gym              Gym            @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  subscriptions    Subscription[]
+  checkIns         CheckIn[]
+
+  @@unique([gymId, phoneNumber])
+  @@index([gymId])
+}
+
+model Plan {
+  id            String         @id @default(cuid())
+  gymId         String
+  name          String
+  pricePaise    Int
+  durationDays  Int
+  createdAt     DateTime       @default(now())
+  gym           Gym            @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+
+  @@index([gymId])
+}
+
+model Subscription {
+  id             String   @id @default(cuid())
+  gymId          String
+  memberId       String
+  planId         String
+  startDate      DateTime
+  endDate        DateTime
+  pricePaidPaise Int
+  status         String   @default("Active")
+  createdAt      DateTime @default(now())
+  gym            Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  member         Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  plan           Plan     @relation(fields: [planId], references: [id])
+
+  @@index([gymId])
+  @@index([memberId])
+  @@index([endDate])
+}
+
+model CheckIn {
+  id        String   @id @default(cuid())
+  gymId     String
+  memberId  String
+  timestamp DateTime @default(now())
+  allowed   Boolean
+  gym       Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([gymId, timestamp])
+  @@index([memberId, timestamp])
+}
