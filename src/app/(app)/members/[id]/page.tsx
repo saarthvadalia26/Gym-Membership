@@ -11,6 +11,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { ReceiptActions } from "@/components/ReceiptActions";
 import { DeleteMemberButton } from "@/components/DeleteMemberButton";
 import { CheckinSparkline } from "@/components/CheckinSparkline";
+import { MemberPortalShare } from "@/components/MemberPortalShare";
 
 export const dynamic = "force-dynamic";
 
@@ -240,6 +241,14 @@ export default async function MemberDetailPage({
             </div>
             <CheckinSparkline checkIns={member.checkIns} />
           </div>
+
+          <MemberPortalShare
+            memberId={member.id}
+            memberName={member.fullName}
+            memberPhone={member.phoneNumber}
+            initialAccessToken={member.accessToken}
+            gymName={gym.name}
+          />
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">

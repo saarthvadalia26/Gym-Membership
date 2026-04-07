@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import crypto from "crypto";
 import { prisma } from "@/lib/db";
 import { requireGymId } from "@/lib/auth";
+
+function generateAccessToken(): string {
+  // 24-byte URL-safe random string — long enough that brute-forcing is infeasible
+  return crypto.randomBytes(24).toString("base64url");
+}
 
 const createSchema = z.object({
   fullName: z.string().min(1, "Name is required").max(120),
@@ -58,6 +64,7 @@ export async function POST(req: NextRequest) {
         fullName: data.fullName,
         phoneNumber: data.phoneNumber,
         emergencyContact: data.emergencyContact || null,
+        accessToken: generateAccessToken(),
       },
     });
     return NextResponse.json(member, { status: 201 });

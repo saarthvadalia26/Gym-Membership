@@ -18,7 +18,9 @@ export default auth((req) => {
 
   if (
     pathname.startsWith("/api/auth") ||
-    publicRoutes.includes(pathname)
+    publicRoutes.includes(pathname) ||
+    pathname.startsWith("/m/") ||
+    pathname.startsWith("/api/receipt/public/")
   ) {
     if (isLoggedIn && (pathname === "/login" || pathname === "/register")) {
       return NextResponse.redirect(new URL("/", req.nextUrl));
