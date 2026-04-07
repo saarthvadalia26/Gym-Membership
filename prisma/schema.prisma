@@ -25,14 +25,27 @@ model Gym {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  gymId        String
-  createdAt    DateTime @default(now())
-  gym          Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  passwordHash        String
+  gymId               String
+  createdAt           DateTime             @default(now())
+  gym                 Gym                  @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  passwordResetTokens PasswordResetToken[]
 
   @@index([gymId])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Member {

@@ -9,11 +9,16 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { pathname } = req.nextUrl;
 
+  const publicRoutes = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+  ];
+
   if (
     pathname.startsWith("/api/auth") ||
-    pathname === "/login" ||
-    pathname === "/register" ||
-    pathname === "/api/auth/register"
+    publicRoutes.includes(pathname)
   ) {
     if (isLoggedIn && (pathname === "/login" || pathname === "/register")) {
       return NextResponse.redirect(new URL("/", req.nextUrl));
