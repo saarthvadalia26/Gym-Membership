@@ -6,7 +6,9 @@ Estimated time: **15–25 minutes** if you're new to all of this.
 You will create three free accounts:
 1. **GitHub** — to host your code
 2. **Vercel** — to host the website
-3. **Neon** — to host the Postgres database
+3. A **Postgres database provider** — pick one in Part 2:
+   - **Supabase** (recommended if you might want auth/storage features later)
+   - **Neon** (recommended if you only need a database, simpler setup)
 
 > 💡 Everything in this guide is free. You won't be asked for a credit card.
 
@@ -50,18 +52,62 @@ When it finishes, refresh the GitHub page and you should see all your files.
 
 ---
 
-## Part 2 — Create a free Postgres database (Neon)
+## Part 2 — Create a free Postgres database
 
-Vercel itself doesn't store your data — it just runs the website. Your data
-needs a separate database, and we're using **Neon** because:
-- Free tier is generous (0.5 GB)
-- Built specifically for serverless apps like Vercel
-- One-click integration with Vercel
+Vercel itself doesn't store your data — it just runs the website. You need a
+separate Postgres database. Pick **one** of the two options below.
 
-### 1. Sign up at <https://neon.tech>
+### Option A — Supabase (recommended)
+
+Supabase gives you 500 MB of Postgres on the free tier, plus a nice visual
+table editor at supabase.com. Same engine as Neon under the hood.
+
+#### 1. Sign up at <https://supabase.com>
+Click **Start your project** → sign in with GitHub.
+
+#### 2. Create a project
+- Click **New Project**
+- Organization: leave default
+- Name: `gym-membership`
+- Database password: **click "Generate a password"** and **save it somewhere safe** —
+  you'll need it in the next step (Supabase doesn't show it again later)
+- Region: pick the one closest to your users (e.g. `Asia South (Mumbai)` for India)
+- Pricing plan: **Free**
+- Click **Create new project** — provisioning takes 1–2 minutes
+
+#### 3. Copy the connection string
+- Once the project is ready, click **Connect** at the top of the page
+  (or go to **Project Settings** → **Database** → **Connection string**)
+- Find the **"Connection pooling"** section (NOT "Direct connection")
+- Select mode: **Transaction**
+- Copy the URI — it looks like:
+  ```
+  postgresql://postgres.xxxxx:[YOUR-PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres
+  ```
+- **Replace `[YOUR-PASSWORD]`** with the password you saved in step 2
+- **Add `?pgbouncer=true&connection_limit=1`** to the end so it becomes:
+  ```
+  postgresql://postgres.xxxxx:YOUR-REAL-PASSWORD@aws-0-ap-south-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1
+  ```
+
+> ⚠️ **Why "Connection pooling" / port 6543, not direct / port 5432?**
+> Vercel functions are serverless — every request can spin up a fresh server.
+> The direct connection would exhaust Postgres's connection limit fast.
+> The **transaction-mode pooler on port 6543** is built for serverless and
+> the `pgbouncer=true` flag tells Prisma to behave well with it.
+
+Save this final string somewhere — you'll paste it into Vercel in a moment.
+
+---
+
+### Option B — Neon
+
+Neon is built specifically for serverless apps. Smaller learning curve than Supabase.
+
+#### 1. Sign up at <https://neon.tech>
 You can sign up with your GitHub account — fastest option.
 
-### 2. Create a project
+#### 2. Create a project
 - After signing in, you'll be on the dashboard
 - Click **New Project**
 - Project name: `gym-membership`
@@ -69,7 +115,7 @@ You can sign up with your GitHub account — fastest option.
 - Region: pick the one closest to your users (e.g. **AWS Asia Pacific (Mumbai)** for India)
 - Click **Create Project**
 
-### 3. Copy the connection string
+#### 3. Copy the connection string
 - After creation, you'll see a "Connection string" box
 - Click the eye icon to reveal the password
 - **Copy the entire string** — it looks like:
@@ -98,7 +144,7 @@ Vercel auto-detects Next.js. Don't change the build settings.
 
 | Name | Value |
 |---|---|
-| `DATABASE_URL` | The Neon connection string you copied above |
+| `DATABASE_URL` | The Postgres connection string you copied in Part 2 (Supabase pooler URL or Neon URL) |
 | `NEXTAUTH_SECRET` | A long random string — see below for how to generate |
 | `AUTH_SECRET` | **Same value as `NEXTAUTH_SECRET`** |
 | `AUTH_TRUST_HOST` | `true` |
@@ -123,11 +169,17 @@ fireworks 🎉, it's deployed.
 The deployment created the website, but the database is still empty (no tables).
 You need to apply the migrations once.
 
-**Easiest way (from your local terminal):**
+> ⚠️ **If you're using Supabase**, do NOT use the pooler URL (port 6543) for
+> migrations — Prisma Migrate doesn't work over pgBouncer. Get the **Direct
+> connection** URL instead: in Supabase, **Project Settings → Database →
+> Connection string → Direct connection (port 5432)**. Use that URL only for
+> this one command, then keep using the pooler URL in Vercel.
+
+**From your local terminal:**
 
 ```bash
-# Set the DATABASE_URL temporarily for this command only
-DATABASE_URL="paste-your-neon-connection-string-here" npx prisma migrate deploy
+# Use the direct connection URL here (port 5432 for Supabase, normal Neon URL for Neon)
+DATABASE_URL="paste-direct-connection-string-here" npx prisma migrate deploy
 ```
 
 (On Windows PowerShell, use:
