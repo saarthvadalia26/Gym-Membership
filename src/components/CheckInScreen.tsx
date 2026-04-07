@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Search, Check, X } from "lucide-react";
+import { Search, Check, X, ScanLine } from "lucide-react";
 import { format } from "date-fns";
+import { toast } from "sonner";
 import { computeStatus, daysRemaining } from "@/lib/status";
+import { QRScanner } from "./QRScanner";
 
 interface Member {
   id: string;
@@ -26,6 +28,7 @@ export function CheckInScreen() {
   const [results, setResults] = useState<Member[]>([]);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<CheckInResult | null>(null);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Debounced search
@@ -67,6 +70,24 @@ export function CheckInScreen() {
     const data: CheckInResult = await res.json();
     setFeedback(data);
     setResults([]);
+  }
+
+  async function handleScan(token: string) {
+    setScannerOpen(false);
+    const res = await fetch("/api/checkin/by-token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      toast.error(err?.error ?? "Could not check in");
+      return;
+    }
+    const data: CheckInResult = await res.json();
+    setFeedback(data);
+    setResults([]);
+    setQuery("");
   }
 
   if (feedback) {
@@ -132,18 +153,35 @@ export function CheckInScreen() {
 
   return (
     <div>
-      <div className="relative max-w-2xl mx-auto">
-        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
-        <input
-          ref={inputRef}
-          autoFocus
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search member by name or phone…"
-          className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-500/30 focus:border-brand-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm placeholder:text-slate-400 dark:placeholder:text-slate-500"
-        />
+      <div className="max-w-2xl mx-auto flex items-center gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
+          <input
+            ref={inputRef}
+            autoFocus
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search member by name or phone…"
+            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-500/30 focus:border-brand-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm placeholder:text-slate-400 dark:placeholder:text-slate-500"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => setScannerOpen(true)}
+          className="shrink-0 inline-flex items-center justify-center w-[72px] h-[72px] sm:w-[76px] sm:h-[76px] rounded-2xl bg-brand-600 hover:bg-brand-700 hover:shadow-glow text-white shadow-sm transition border-2 border-brand-600 hover:border-brand-700"
+          title="Scan member QR code"
+          aria-label="Scan QR code"
+        >
+          <ScanLine size={28} />
+        </button>
       </div>
+
+      <QRScanner
+        open={scannerOpen}
+        onScan={handleScan}
+        onClose={() => setScannerOpen(false)}
+      />
 
       <div className="max-w-2xl mx-auto mt-6">
         {loading && (

@@ -13,6 +13,7 @@ import { computeStatus, daysRemaining } from "@/lib/status";
 import { formatINR } from "@/lib/currency";
 import { StatusBadge } from "@/components/StatusBadge";
 import { CheckinSparkline } from "@/components/CheckinSparkline";
+import { MemberQRCode } from "@/components/MemberQRCode";
 
 export const dynamic = "force-dynamic";
 
@@ -159,6 +160,25 @@ export default async function MemberPortalPage({
             <div className="text-slate-500 dark:text-slate-400">
               No active subscription. Visit the gym to sign up.
             </div>
+          </div>
+        )}
+
+        {/* Check-in QR — the showpiece for the portal */}
+        {member.accessToken && (
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6 mb-6">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 text-center">
+              Your Check-in QR
+            </h2>
+            <div className="flex justify-center">
+              <div className="bg-white p-3 rounded-2xl shadow-soft border border-slate-200">
+                <MemberQRCode token={member.accessToken} size={220} />
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-4 text-center leading-relaxed">
+              Show this at the front desk for instant check-in.
+              <br />
+              Tip: bookmark this page so it&apos;s always one tap away.
+            </p>
           </div>
         )}
 

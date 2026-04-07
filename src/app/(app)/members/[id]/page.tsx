@@ -12,6 +12,7 @@ import { ReceiptActions } from "@/components/ReceiptActions";
 import { DeleteMemberButton } from "@/components/DeleteMemberButton";
 import { CheckinSparkline } from "@/components/CheckinSparkline";
 import { MemberPortalShare } from "@/components/MemberPortalShare";
+import { MemberQRCode } from "@/components/MemberQRCode";
 
 export const dynamic = "force-dynamic";
 
@@ -248,6 +249,11 @@ export default async function MemberDetailPage({
             memberPhone={member.phoneNumber}
             initialAccessToken={member.accessToken}
             gymName={gym.name}
+            qrCode={
+              member.accessToken ? (
+                <MemberQRCode token={member.accessToken} size={180} />
+              ) : null
+            }
           />
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">

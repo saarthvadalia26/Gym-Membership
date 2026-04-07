@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -18,6 +18,7 @@ interface Props {
   memberPhone: string;
   initialAccessToken: string | null;
   gymName: string;
+  qrCode?: ReactNode;
 }
 
 export function MemberPortalShare({
@@ -26,6 +27,7 @@ export function MemberPortalShare({
   memberPhone,
   initialAccessToken,
   gymName,
+  qrCode,
 }: Props) {
   const router = useRouter();
   const [token, setToken] = useState(initialAccessToken);
@@ -108,7 +110,7 @@ export function MemberPortalShare({
         <div className="flex items-center gap-2">
           <LinkIcon size={14} className="text-brand-500" />
           <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            Member Portal
+            Member Portal & QR
           </h2>
         </div>
         <button
@@ -121,6 +123,15 @@ export function MemberPortalShare({
           Rotate
         </button>
       </div>
+
+      {qrCode && (
+        <div className="flex flex-col items-center bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 rounded-xl p-4 mb-3">
+          <div className="bg-white p-2 rounded-lg">{qrCode}</div>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 text-center">
+            Member shows this QR at the door for instant check-in
+          </p>
+        </div>
+      )}
 
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 mb-3 overflow-hidden">
         <code className="text-xs text-slate-700 dark:text-slate-300 truncate flex-1 min-w-0">
