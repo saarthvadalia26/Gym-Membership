@@ -74,24 +74,35 @@ export function CheckInScreen() {
 
   async function handleScan(raw: string) {
     setScannerOpen(false);
-    // QRs now encode `https://<host>/m/<token>` so phone cameras open them as
-    // a link, but earlier QRs encoded just the token. Accept both.
-    const match = raw.match(/\/m\/([^/?#]+)/);
-    const token = (match ? match[1] : raw).trim();
-    const res = await fetch("/api/checkin/by-token", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token }),
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      toast.error(err?.error ?? "Could not check in");
-      return;
+    try {
+      // QRs now encode `https://<host>/m/<token>` so phone cameras open them
+      // as a link, but earlier QRs encoded just the token. Accept both.
+      const match = raw.match(/\/m\/([^/?#]+)/);
+      const token = (match ? match[1] : raw).trim();
+      if (!token) {
+        toast.error("QR code is empty or unreadable");
+        return;
+      }
+      const res = await fetch("/api/checkin/by-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        toast.error(err?.error ?? "Could not check in");
+        return;
+      }
+      const data: CheckInResult = await res.json();
+      setFeedback(data);
+      setResults([]);
+      setQuery("");
+    } catch (e) {
+      console.error("[checkin scan]", e);
+      toast.error(
+        e instanceof Error ? e.message : "Could not process the QR code"
+      );
     }
-    const data: CheckInResult = await res.json();
-    setFeedback(data);
-    setResults([]);
-    setQuery("");
   }
 
   if (feedback) {

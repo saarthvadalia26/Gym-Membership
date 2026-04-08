@@ -45,13 +45,21 @@ export function QRScanner({ open, onScan, onClose }: Props) {
             },
           },
           (decodedText) => {
-            // Stop the camera before bubbling up to avoid double-scans
-            scanner
-              .stop()
-              .catch(() => {})
-              .finally(() => {
+            // Stop the camera before bubbling up to avoid double-scans.
+            // Both stop() and onScan are wrapped so a thrown exception can't
+            // escape the html5-qrcode internal callback and crash React.
+            (async () => {
+              try {
+                await scanner.stop();
+              } catch {
+                /* already stopped or never started — ignore */
+              }
+              try {
                 onScan(decodedText.trim());
-              });
+              } catch (err) {
+                console.error("[qr-scanner] onScan handler threw:", err);
+              }
+            })();
           },
           () => {
             // ignore individual decode failures — keeps trying every frame
@@ -77,10 +85,20 @@ export function QRScanner({ open, onScan, onClose }: Props) {
 
     return () => {
       cancelled = true;
-      const s = scannerRef.current as { stop?: () => Promise<void> } | null;
-      if (s?.stop) {
-        s.stop().catch(() => {});
+      const s = scannerRef.current as {
+        stop?: () => Promise<void>;
+        getState?: () => number;
+      } | null;
+      // html5-qrcode throws if you call stop() when not actively scanning.
+      // State 2 = SCANNING; only stop in that state.
+      try {
+        if (s?.stop && (!s.getState || s.getState() === 2)) {
+          s.stop().catch(() => {});
+        }
+      } catch {
+        /* swallow — unmount cleanup must never throw */
       }
+      scannerRef.current = null;
     };
   }, [open, onScan]);
 
