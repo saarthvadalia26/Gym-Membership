@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { PWARegister } from "@/components/PWARegister";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,16 +13,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Gym Membership — Subscription Management",
   description: "Subscription management for gyms and clubs",
-  applicationName: "Gym Membership",
-  manifest: "/manifest.webmanifest",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Gym Membership",
-  },
-  formatDetection: {
-    telephone: false,
-  },
 };
 
 export const viewport: Viewport = {
@@ -49,7 +38,6 @@ export default function RootLayout({
       >
         <ThemeProvider>
           {children}
-          <PWARegister />
           <Toaster
             position="top-right"
             richColors
