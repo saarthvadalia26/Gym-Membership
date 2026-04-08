@@ -48,6 +48,9 @@ export async function POST(req: NextRequest) {
         planId,
         startDate: start,
         endDate: end,
+        // Snapshot the plan's listed price at the time of sale, so receipts
+        // and reports can show the original price even if the plan changes later.
+        originalPricePaise: plan.pricePaise,
         pricePaidPaise,
         status: "Active",
       },

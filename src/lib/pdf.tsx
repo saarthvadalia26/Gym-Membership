@@ -43,12 +43,28 @@ const styles = StyleSheet.create({
     borderBottomColor: "#e2e8f0",
     marginVertical: 16,
   },
-  totalRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  pricingBlock: {
     backgroundColor: "#f0f9ff",
     padding: 12,
     marginTop: 8,
+  },
+  pricingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  pricingLabel: { fontSize: 11, color: "#475569" },
+  pricingValue: { fontSize: 11, color: "#0f172a" },
+  pricingDiscount: { fontSize: 11, color: "#059669", fontFamily: "Helvetica-Bold" },
+  pricingDivider: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#bae6fd",
+    marginVertical: 6,
+  },
+  totalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 4,
   },
   totalLabel: { fontSize: 13, fontFamily: "Helvetica-Bold" },
   totalValue: {
@@ -76,6 +92,7 @@ export interface ReceiptData {
   startDate: Date;
   endDate: Date;
   durationDays: number;
+  originalPricePaise: number | null;
   pricePaidPaise: number;
   gymName: string;
   gymAddress: string;
@@ -83,6 +100,13 @@ export interface ReceiptData {
 }
 
 function ReceiptDocument({ data }: { data: ReceiptData }) {
+  const subtotal = data.originalPricePaise ?? data.pricePaidPaise;
+  const discount = Math.max(subtotal - data.pricePaidPaise, 0);
+  const hasDiscount = discount > 0;
+  const discountPercent = hasDiscount && subtotal > 0
+    ? Math.round((discount / subtotal) * 100)
+    : 0;
+
   return (
     <Document title={`Receipt ${data.receiptNumber}`}>
       <Page size="A4" style={styles.page}>
@@ -129,9 +153,28 @@ function ReceiptDocument({ data }: { data: ReceiptData }) {
           <Text style={styles.value}>{format(data.endDate, "dd MMM yyyy")}</Text>
         </View>
 
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total Paid</Text>
-          <Text style={styles.totalValue}>{formatINR(data.pricePaidPaise)}</Text>
+        <View style={styles.pricingBlock}>
+          {hasDiscount && (
+            <>
+              <View style={styles.pricingRow}>
+                <Text style={styles.pricingLabel}>Subtotal</Text>
+                <Text style={styles.pricingValue}>{formatINR(subtotal)}</Text>
+              </View>
+              <View style={styles.pricingRow}>
+                <Text style={styles.pricingDiscount}>
+                  Discount{discountPercent > 0 ? ` (${discountPercent}%)` : ""}
+                </Text>
+                <Text style={styles.pricingDiscount}>
+                  − {formatINR(discount)}
+                </Text>
+              </View>
+              <View style={styles.pricingDivider} />
+            </>
+          )}
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Total Paid</Text>
+            <Text style={styles.totalValue}>{formatINR(data.pricePaidPaise)}</Text>
+          </View>
         </View>
 
         <Text style={styles.footer}>

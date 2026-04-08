@@ -87,18 +87,19 @@ model Plan {
 }
 
 model Subscription {
-  id             String   @id @default(cuid())
-  gymId          String
-  memberId       String
-  planId         String
-  startDate      DateTime
-  endDate        DateTime
-  pricePaidPaise Int
-  status         String   @default("Active")
-  createdAt      DateTime @default(now())
-  gym            Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
-  member         Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  plan           Plan     @relation(fields: [planId], references: [id])
+  id                 String   @id @default(cuid())
+  gymId              String
+  memberId           String
+  planId             String
+  startDate          DateTime
+  endDate            DateTime
+  originalPricePaise Int?
+  pricePaidPaise     Int
+  status             String   @default("Active")
+  createdAt          DateTime @default(now())
+  gym                Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  member             Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  plan               Plan     @relation(fields: [planId], references: [id])
 
   @@index([gymId])
   @@index([memberId])

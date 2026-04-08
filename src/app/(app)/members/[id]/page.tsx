@@ -74,6 +74,7 @@ export default async function MemberDetailPage({
         memberPhone: member.phoneNumber,
         planName: receiptSub.plan.name,
         endDate: receiptSub.endDate,
+        originalPricePaise: receiptSub.originalPricePaise,
         pricePaidPaise: receiptSub.pricePaidPaise,
         gymName: gym.name,
       })

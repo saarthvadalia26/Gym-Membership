@@ -46,6 +46,7 @@ export async function GET(
     startDate: sub.startDate,
     endDate: sub.endDate,
     durationDays: sub.plan.durationDays,
+    originalPricePaise: sub.originalPricePaise,
     pricePaidPaise: sub.pricePaidPaise,
     gymName: sub.gym.name,
     gymAddress: sub.gym.address ?? "",
