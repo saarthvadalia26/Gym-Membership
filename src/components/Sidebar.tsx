@@ -19,14 +19,20 @@ import { cn } from "@/lib/utils";
 import { signOutAction } from "@/app/actions";
 import { ThemeToggle } from "./ThemeToggle";
 
-const links = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/members", label: "Members", icon: Users },
-  { href: "/plans", label: "Plans", icon: Tag },
-  { href: "/checkin", label: "Check-in", icon: ScanLine },
+const allLinks = [
+  { href: "/", label: "Dashboard", icon: LayoutDashboard, ownerOnly: false },
+  { href: "/members", label: "Members", icon: Users, ownerOnly: false },
+  { href: "/plans", label: "Plans", icon: Tag, ownerOnly: true },
+  { href: "/checkin", label: "Check-in", icon: ScanLine, ownerOnly: false },
 ];
 
-export function Sidebar({ gymName }: { gymName: string }) {
+interface SidebarProps {
+  gymName: string;
+  role?: "OWNER" | "TRAINER";
+}
+
+export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
+  const links = allLinks.filter((l) => !l.ownerOnly || role === "OWNER");
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 

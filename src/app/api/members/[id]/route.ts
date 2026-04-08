@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { requireGymId, requireOwner } from "@/lib/auth";
 
 const updateSchema = z.object({
   fullName: z.string().min(1).max(120).optional(),
@@ -62,12 +62,23 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const gymId = await requireGymId();
-  const { id } = await params;
-  // Scoped delete: only succeeds if the member belongs to this gym
-  const result = await prisma.member.deleteMany({ where: { id, gymId } });
-  if (result.count === 0) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  try {
+    const ctx = await requireOwner();
+    const { id } = await params;
+    const result = await prisma.member.deleteMany({
+      where: { id, gymId: ctx.gymId },
+    });
+    if (result.count === 0) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    if (e instanceof Error && e.message === "FORBIDDEN") {
+      return NextResponse.json(
+        { error: "Only the owner can delete members" },
+        { status: 403 }
+      );
+    }
+    throw e;
   }
-  return NextResponse.json({ ok: true });
 }

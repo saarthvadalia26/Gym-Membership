@@ -30,28 +30,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const ok = await bcrypt.compare(password, user.passwordHash);
         if (!ok) return null;
 
-        return { id: user.id, email: user.email, gymId: user.gymId };
+        return {
+          id: user.id,
+          email: user.email,
+          gymId: user.gymId,
+          role: user.role,
+        };
       },
     }),
   ],
   callbacks: {
     ...authConfig.callbacks,
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.gymId = (user as { gymId?: string }).gymId;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token.id && session.user) {
-        (session.user as { id?: string; gymId?: string }).id = token.id as string;
-        (session.user as { id?: string; gymId?: string }).gymId = token.gymId as string;
-      }
-      return session;
-    },
   },
 });
+
+export type Role = "OWNER" | "TRAINER";
+
+interface SessionContext {
+  gymId: string;
+  userId: string;
+  role: Role;
+}
 
 /**
  * Returns the current authenticated user's gymId. Redirects to /login if
@@ -61,11 +60,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
  * across tenants.
  */
 export async function requireGymId(): Promise<string> {
+  const ctx = await requireSession();
+  return ctx.gymId;
+}
+
+/**
+ * Returns the full session context including user id and role. Use this
+ * when you need to enforce role-based access (Owner-only actions).
+ */
+export async function requireSession(): Promise<SessionContext> {
   const session = await auth();
-  const gymId = (session?.user as { gymId?: string } | undefined)?.gymId;
-  if (!gymId) {
-    // Forces a fresh sign-in so the new JWT picks up gymId
+  const u = session?.user as
+    | { id?: string; gymId?: string; role?: string }
+    | undefined;
+  if (!u?.gymId || !u.id) {
     redirect("/login");
   }
-  return gymId;
+  return {
+    gymId: u.gymId,
+    userId: u.id,
+    role: (u.role === "TRAINER" ? "TRAINER" : "OWNER") as Role,
+  };
+}
+
+/**
+ * Like requireSession() but throws 403 if the user is not the Owner.
+ * Use on API routes that mutate money, billing, or staff (delete member,
+ * delete plan, delete account, manage staff, etc.)
+ */
+export async function requireOwner(): Promise<SessionContext> {
+  const ctx = await requireSession();
+  if (ctx.role !== "OWNER") {
+    throw new Error("FORBIDDEN");
+  }
+  return ctx;
 }

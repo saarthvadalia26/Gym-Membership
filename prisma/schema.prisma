@@ -29,6 +29,7 @@ model User {
   email               String               @unique
   passwordHash        String
   gymId               String
+  role                String               @default("OWNER")
   createdAt           DateTime             @default(now())
   gym                 Gym                  @relation(fields: [gymId], references: [id], onDelete: Cascade)
   passwordResetTokens PasswordResetToken[]

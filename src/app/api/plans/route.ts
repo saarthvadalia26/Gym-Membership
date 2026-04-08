@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { requireGymId, requireOwner } from "@/lib/auth";
 
 const createSchema = z.object({
   name: z.string().min(1).max(60),
@@ -19,15 +19,24 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const gymId = await requireGymId();
-  const body = await req.json();
-  const parsed = createSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
-      { status: 400 }
-    );
+  try {
+    const ctx = await requireOwner();
+    const body = await req.json();
+    const parsed = createSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+    const plan = await prisma.plan.create({
+      data: { ...parsed.data, gymId: ctx.gymId },
+    });
+    return NextResponse.json(plan, { status: 201 });
+  } catch (e) {
+    if (e instanceof Error && e.message === "FORBIDDEN") {
+      return NextResponse.json({ error: "Owner only" }, { status: 403 });
+    }
+    throw e;
   }
-  const plan = await prisma.plan.create({ data: { ...parsed.data, gymId } });
-  return NextResponse.json(plan, { status: 201 });
 }

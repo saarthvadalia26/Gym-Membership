@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { addDays } from "date-fns";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { requireOwner } from "@/lib/auth";
 
 const createSchema = z.object({
   memberId: z.string().min(1),
@@ -12,42 +12,55 @@ const createSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const gymId = await requireGymId();
-  const body = await req.json();
-  const parsed = createSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
-      { status: 400 }
-    );
+  try {
+    const ctx = await requireOwner();
+    const body = await req.json();
+    const parsed = createSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+    const { memberId, planId, startDate, pricePaidPaise } = parsed.data;
+
+    const plan = await prisma.plan.findFirst({
+      where: { id: planId, gymId: ctx.gymId },
+    });
+    if (!plan) {
+      return NextResponse.json({ error: "Plan not found" }, { status: 404 });
+    }
+
+    const member = await prisma.member.findFirst({
+      where: { id: memberId, gymId: ctx.gymId },
+    });
+    if (!member) {
+      return NextResponse.json({ error: "Member not found" }, { status: 404 });
+    }
+
+    const start = new Date(startDate);
+    const end = addDays(start, plan.durationDays);
+
+    const subscription = await prisma.subscription.create({
+      data: {
+        gymId: ctx.gymId,
+        memberId,
+        planId,
+        startDate: start,
+        endDate: end,
+        pricePaidPaise,
+        status: "Active",
+      },
+    });
+
+    return NextResponse.json(subscription, { status: 201 });
+  } catch (e) {
+    if (e instanceof Error && e.message === "FORBIDDEN") {
+      return NextResponse.json(
+        { error: "Only the owner can record payments" },
+        { status: 403 }
+      );
+    }
+    throw e;
   }
-  const { memberId, planId, startDate, pricePaidPaise } = parsed.data;
-
-  // Both must belong to the caller's gym — never allow cross-tenant linking
-  const plan = await prisma.plan.findFirst({ where: { id: planId, gymId } });
-  if (!plan) {
-    return NextResponse.json({ error: "Plan not found" }, { status: 404 });
-  }
-
-  const member = await prisma.member.findFirst({ where: { id: memberId, gymId } });
-  if (!member) {
-    return NextResponse.json({ error: "Member not found" }, { status: 404 });
-  }
-
-  const start = new Date(startDate);
-  const end = addDays(start, plan.durationDays);
-
-  const subscription = await prisma.subscription.create({
-    data: {
-      gymId,
-      memberId,
-      planId,
-      startDate: start,
-      endDate: end,
-      pricePaidPaise,
-      status: "Active",
-    },
-  });
-
-  return NextResponse.json(subscription, { status: 201 });
 }

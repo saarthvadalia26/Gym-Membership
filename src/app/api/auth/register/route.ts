@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
         email,
         passwordHash,
         gymId: newGym.id,
+        role: "OWNER",
       },
     });
 

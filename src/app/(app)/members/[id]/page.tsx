@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Plus, Calendar, Phone, AlertCircle, Activity } from "lucide-react";
 import { format } from "date-fns";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { computeStatus, daysRemaining } from "@/lib/status";
 import { formatINR } from "@/lib/currency";
 import { buildWhatsAppReceiptLink } from "@/lib/whatsapp";
@@ -23,13 +23,14 @@ export default async function MemberDetailPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ receipt?: string }>;
 }) {
-  const gymId = await requireGymId();
-  const gym = await prisma.gym.findUniqueOrThrow({ where: { id: gymId } });
+  const ctx = await requireSession();
+  const gym = await prisma.gym.findUniqueOrThrow({ where: { id: ctx.gymId } });
+  const isOwner = ctx.role === "OWNER";
   const { id } = await params;
   const { receipt } = await searchParams;
 
   const member = await prisma.member.findFirst({
-    where: { id, gymId },
+    where: { id, gymId: ctx.gymId },
     include: {
       subscriptions: {
         orderBy: { startDate: "desc" },
@@ -110,16 +111,21 @@ export default async function MemberDetailPage({
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <DeleteMemberButton memberId={member.id} memberName={member.fullName} />
-            <Link
-              href={`/subscriptions/new?memberId=${member.id}`}
-              className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 hover:shadow-glow text-white font-medium px-4 py-2.5 rounded-lg transition shadow-sm"
-            >
-              <Plus size={16} />
-              {latestSub ? "Renew" : "New Subscription"}
-            </Link>
-          </div>
+          {isOwner && (
+            <div className="flex items-center gap-3">
+              <DeleteMemberButton
+                memberId={member.id}
+                memberName={member.fullName}
+              />
+              <Link
+                href={`/subscriptions/new?memberId=${member.id}`}
+                className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 hover:shadow-glow text-white font-medium px-4 py-2.5 rounded-lg transition shadow-sm"
+              >
+                <Plus size={16} />
+                {latestSub ? "Renew" : "New Subscription"}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
