@@ -40,6 +40,7 @@ export default async function NewSubscriptionPage({
           memberId={member.id}
           memberName={member.fullName}
           plans={plans}
+          referralCreditsAvailable={member.referralCreditsAvailable}
         />
       </div>
     </div>

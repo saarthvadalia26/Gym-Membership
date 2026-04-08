@@ -122,6 +122,9 @@ export async function POST(req: NextRequest) {
         accessToken: generateAccessToken(),
         referralCode,
         referredById,
+        // Members who signed up with a referral code get one welcome credit,
+        // redeemable as a 10% discount on a future subscription.
+        referralCreditsAvailable: referredById ? 1 : 0,
       },
     });
     return NextResponse.json(member, { status: 201 });

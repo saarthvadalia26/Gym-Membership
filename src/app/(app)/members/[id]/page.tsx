@@ -289,6 +289,7 @@ export default async function MemberDetailPage({
             referralCode={member.referralCode}
             referralCount={member._count.referrals}
             referredBy={member.referredBy}
+            creditsAvailable={member.referralCreditsAvailable}
           />
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">

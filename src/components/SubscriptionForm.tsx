@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { addDays, format } from "date-fns";
-import { Tag, X } from "lucide-react";
+import { Tag, X, Gift } from "lucide-react";
 import { formatINR, formatINRCompact, parseINR } from "@/lib/currency";
+
+const REFERRAL_DISCOUNT_PERCENT = 10;
 
 interface Plan {
   id: string;
@@ -18,11 +20,17 @@ interface Props {
   memberId: string;
   memberName: string;
   plans: Plan[];
+  referralCreditsAvailable?: number;
 }
 
 type DiscountMode = "percent" | "amount";
 
-export function SubscriptionForm({ memberId, memberName, plans }: Props) {
+export function SubscriptionForm({
+  memberId,
+  memberName,
+  plans,
+  referralCreditsAvailable = 0,
+}: Props) {
   const router = useRouter();
   const [planId, setPlanId] = useState(plans[0]?.id ?? "");
   const [startDate, setStartDate] = useState(format(new Date(), "yyyy-MM-dd"));
@@ -32,23 +40,38 @@ export function SubscriptionForm({ memberId, memberName, plans }: Props) {
   const [discountMode, setDiscountMode] = useState<DiscountMode>("percent");
   const [discountValue, setDiscountValue] = useState("");
 
+  // Auto-apply the referral credit if the member has one. The trainer can
+  // toggle it off if the member would rather save it for next time.
+  const hasReferralCredit = referralCreditsAvailable > 0;
+  const [useReferralCredit, setUseReferralCredit] = useState(hasReferralCredit);
+
   const [submitting, setSubmitting] = useState(false);
 
-  // Compute discount paise from current input
+  // Compute discount paise — referral discount stacks before manual discount.
   const planPaise = selectedPlan?.pricePaise ?? 0;
-  let discountPaise = 0;
+  const referralDiscountPaise =
+    useReferralCredit && hasReferralCredit
+      ? Math.floor((planPaise * REFERRAL_DISCOUNT_PERCENT) / 100)
+      : 0;
+
+  let manualDiscountPaise = 0;
   if (discountOpen && discountValue.trim() !== "") {
     const num = Number(discountValue);
     if (Number.isFinite(num) && num > 0) {
+      const baseAfterReferral = Math.max(planPaise - referralDiscountPaise, 0);
       if (discountMode === "percent") {
         const pct = Math.min(num, 100);
-        discountPaise = Math.round((planPaise * pct) / 100);
+        manualDiscountPaise = Math.round((baseAfterReferral * pct) / 100);
       } else {
-        discountPaise = Math.min(Math.round(num * 100), planPaise);
+        manualDiscountPaise = Math.min(
+          Math.round(num * 100),
+          baseAfterReferral
+        );
       }
     }
   }
 
+  const discountPaise = referralDiscountPaise + manualDiscountPaise;
   const finalPricePaise = Math.max(planPaise - discountPaise, 0);
 
   function onPlanChange(id: string) {
@@ -86,6 +109,7 @@ export function SubscriptionForm({ memberId, memberName, plans }: Props) {
         planId,
         startDate,
         pricePaidPaise: finalPricePaise,
+        applyReferralCredit: useReferralCredit && hasReferralCredit,
       }),
     });
 
@@ -178,6 +202,41 @@ export function SubscriptionForm({ memberId, memberName, plans }: Props) {
             </span>
           </div>
 
+          {hasReferralCredit && (
+            <label className="flex items-start gap-2.5 px-3 py-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={useReferralCredit}
+                onChange={(e) => setUseReferralCredit(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-emerald-400 text-emerald-600 focus:ring-emerald-500"
+              />
+              <span className="flex-1 text-xs text-emerald-800 dark:text-emerald-200 leading-relaxed">
+                <span className="inline-flex items-center gap-1 font-semibold">
+                  <Gift size={12} />
+                  Referral credit available
+                </span>
+                <br />
+                Apply {REFERRAL_DISCOUNT_PERCENT}% discount from referral reward
+                {referralCreditsAvailable > 1
+                  ? ` (${referralCreditsAvailable} credits available)`
+                  : ""}
+                .
+              </span>
+            </label>
+          )}
+
+          {referralDiscountPaise > 0 && (
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium inline-flex items-center gap-1">
+                <Gift size={12} />
+                Referral discount ({REFERRAL_DISCOUNT_PERCENT}%)
+              </span>
+              <span className="font-medium text-emerald-600 dark:text-emerald-400">
+                − {formatINR(referralDiscountPaise)}
+              </span>
+            </div>
+          )}
+
           {discountOpen && (
             <div className="pt-2.5 border-t border-slate-200 dark:border-slate-700 space-y-2.5">
               <div className="flex items-center gap-2">
@@ -227,16 +286,16 @@ export function SubscriptionForm({ memberId, memberName, plans }: Props) {
                 </button>
               </div>
 
-              {discountPaise > 0 && (
+              {manualDiscountPaise > 0 && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                    Discount
+                    Manual discount
                     {discountMode === "percent" && discountValue
                       ? ` (${Math.min(Number(discountValue), 100)}%)`
                       : ""}
                   </span>
                   <span className="font-medium text-emerald-600 dark:text-emerald-400">
-                    − {formatINR(discountPaise)}
+                    − {formatINR(manualDiscountPaise)}
                   </span>
                 </div>
               )}

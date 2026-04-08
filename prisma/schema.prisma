@@ -60,6 +60,7 @@ model Member {
   accessToken      String?        @unique
   referralCode     String?
   referredById     String?
+  referralCreditsAvailable Int    @default(0)
   createdAt        DateTime       @default(now())
   gym              Gym            @relation(fields: [gymId], references: [id], onDelete: Cascade)
   subscriptions    Subscription[]

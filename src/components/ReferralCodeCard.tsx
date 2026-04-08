@@ -8,12 +8,14 @@ interface Props {
   referralCode: string | null;
   referralCount: number;
   referredBy: { id: string; fullName: string } | null;
+  creditsAvailable?: number;
 }
 
 export function ReferralCodeCard({
   referralCode,
   referralCount,
   referredBy,
+  creditsAvailable = 0,
 }: Props) {
   function copyCode() {
     if (!referralCode) return;
@@ -51,6 +53,22 @@ export function ReferralCodeCard({
       ) : (
         <div className="px-3.5 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 text-sm text-slate-500 dark:text-slate-400">
           No referral code yet — will be generated automatically.
+        </div>
+      )}
+
+      {creditsAvailable > 0 && (
+        <div className="mt-4 px-3.5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
+          <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
+            <Gift size={14} />
+            <span className="text-xs font-semibold uppercase tracking-wider">
+              Reward unlocked
+            </span>
+          </div>
+          <div className="text-sm text-emerald-900 dark:text-emerald-200 mt-1.5 leading-relaxed">
+            <strong>10% off</strong> on next subscription
+            {creditsAvailable > 1 ? ` (${creditsAvailable} credits)` : ""} —
+            applied automatically at checkout.
+          </div>
         </div>
       )}
 

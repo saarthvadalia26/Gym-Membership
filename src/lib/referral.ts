@@ -5,6 +5,9 @@
  * Suffix: 4 random base32-ish characters (no easily-confused 0/O/1/I/L).
  */
 
+/** Discount applied per referral credit (in percent). */
+export const REFERRAL_DISCOUNT_PERCENT = 10;
+
 const ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // omits 0, 1, I, O, L
 
 function randomSuffix(length = 4): string {
