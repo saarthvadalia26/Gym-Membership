@@ -21,6 +21,7 @@ import { DeleteMemberButton } from "@/components/DeleteMemberButton";
 import { CheckinSparkline } from "@/components/CheckinSparkline";
 import { MemberPortalShare } from "@/components/MemberPortalShare";
 import { MemberQRCode } from "@/components/MemberQRCode";
+import { ReferralCodeCard } from "@/components/ReferralCodeCard";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +48,12 @@ export default async function MemberDetailPage({
       checkIns: {
         orderBy: { timestamp: "desc" },
         take: 60,
+      },
+      referredBy: {
+        select: { id: true, fullName: true },
+      },
+      _count: {
+        select: { referrals: true },
       },
     },
   });
@@ -275,6 +282,12 @@ export default async function MemberDetailPage({
                 <MemberQRCode token={member.accessToken} size={180} />
               ) : null
             }
+          />
+
+          <ReferralCodeCard
+            referralCode={member.referralCode}
+            referralCount={member._count.referrals}
+            referredBy={member.referredBy}
           />
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">

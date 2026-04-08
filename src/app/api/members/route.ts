@@ -3,10 +3,34 @@ import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/db";
 import { requireGymId } from "@/lib/auth";
+import {
+  generateReferralCode,
+  normalizeReferralCode,
+} from "@/lib/referral";
 
 function generateAccessToken(): string {
   // 24-byte URL-safe random string — long enough that brute-forcing is infeasible
   return crypto.randomBytes(24).toString("base64url");
+}
+
+/**
+ * Generate a referral code unique within the gym, retrying if there's a
+ * collision (extremely rare with the 30-char alphabet × 4 positions).
+ */
+async function generateUniqueReferralCode(
+  gymId: string,
+  gymName: string
+): Promise<string> {
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const code = generateReferralCode(gymName);
+    const existing = await prisma.member.findFirst({
+      where: { gymId, referralCode: code },
+      select: { id: true },
+    });
+    if (!existing) return code;
+  }
+  // Extremely unlikely fallback — append a random character
+  return `${generateReferralCode(gymName)}${Math.floor(Math.random() * 10)}`;
 }
 
 const createSchema = z.object({
@@ -14,6 +38,7 @@ const createSchema = z.object({
   phoneNumber: z.string().min(7, "Phone number is required").max(20),
   emergencyContact: z.string().max(120).optional().or(z.literal("")),
   dateOfBirth: z.string().optional().or(z.literal("")),
+  referredByCode: z.string().max(40).optional().or(z.literal("")),
 });
 
 export async function GET(req: NextRequest) {
@@ -59,6 +84,34 @@ export async function POST(req: NextRequest) {
 
   const data = parsed.data;
   try {
+    // Look up referrer by code if provided
+    let referredById: string | null = null;
+    if (data.referredByCode && data.referredByCode.length > 0) {
+      const code = normalizeReferralCode(data.referredByCode);
+      const referrer = await prisma.member.findFirst({
+        where: { gymId, referralCode: code },
+        select: { id: true },
+      });
+      if (!referrer) {
+        return NextResponse.json(
+          {
+            error: {
+              referredByCode: ["No member found with that referral code"],
+            },
+          },
+          { status: 400 }
+        );
+      }
+      referredById = referrer.id;
+    }
+
+    // Get gym name for prefix-based referral code
+    const gym = await prisma.gym.findUniqueOrThrow({
+      where: { id: gymId },
+      select: { name: true },
+    });
+    const referralCode = await generateUniqueReferralCode(gymId, gym.name);
+
     const member = await prisma.member.create({
       data: {
         gymId,
@@ -67,6 +120,8 @@ export async function POST(req: NextRequest) {
         emergencyContact: data.emergencyContact || null,
         dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
         accessToken: generateAccessToken(),
+        referralCode,
+        referredById,
       },
     });
     return NextResponse.json(member, { status: 201 });

@@ -29,6 +29,7 @@ export function MemberForm({ initial, mode }: Props) {
       phoneNumber: String(formData.get("phoneNumber") ?? ""),
       emergencyContact: String(formData.get("emergencyContact") ?? ""),
       dateOfBirth: String(formData.get("dateOfBirth") ?? ""),
+      referredByCode: String(formData.get("referredByCode") ?? ""),
     };
 
     const url = mode === "create" ? "/api/members" : `/api/members/${initial?.id}`;
@@ -115,6 +116,22 @@ export function MemberForm({ initial, mode }: Props) {
           className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
         />
       </div>
+
+      {mode === "create" && (
+        <div>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+            Referred by code <span className="text-slate-400 font-normal">(optional)</span>
+          </label>
+          <input
+            name="referredByCode"
+            placeholder="e.g. IRON-7K9P"
+            className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition uppercase placeholder:normal-case"
+          />
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+            If another member referred them, paste the referrer&apos;s code here.
+          </p>
+        </div>
+      )}
 
       <button
         type="submit"

@@ -9,6 +9,7 @@ import { StatsCards } from "@/components/StatsCards";
 import { StatusBadge } from "@/components/StatusBadge";
 import { CollectionsChart } from "@/components/CollectionsChart";
 import { BirthdaysToday } from "@/components/BirthdaysToday";
+import { TopReferrers } from "@/components/TopReferrers";
 
 export const dynamic = "force-dynamic";
 
@@ -100,6 +101,27 @@ export default async function DashboardPage() {
     0
   );
 
+  // Top referrers — members with at least 1 referral, sorted by count desc
+  const referrerCounts = await prisma.member.findMany({
+    where: { gymId, referrals: { some: {} } },
+    select: {
+      id: true,
+      fullName: true,
+      referralCode: true,
+      _count: { select: { referrals: true } },
+    },
+    take: 5,
+  });
+  const topReferrers = referrerCounts
+    .map((r) => ({
+      id: r.id,
+      fullName: r.fullName,
+      referralCode: r.referralCode,
+      count: r._count.referrals,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
   // Collections chart — last 6 months actual + forecast for "Next 30d"
   const sixMonthsAgo = startOfMonth(subMonths(today, 5));
   const recentSubs = await prisma.subscription.findMany({
@@ -146,8 +168,11 @@ export default async function DashboardPage() {
 
       <BirthdaysToday members={birthdaysToday} gymName={gym.name} />
 
-      <div className="mb-8">
-        <CollectionsChart data={monthly} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2">
+          <CollectionsChart data={monthly} />
+        </div>
+        <TopReferrers referrers={topReferrers} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
