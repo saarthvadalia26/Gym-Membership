@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth, signIn } from "@/lib/auth";
 import { AuthError } from "next-auth";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 
 const APP_NAME = "Gym Membership";
 
@@ -89,10 +90,9 @@ export default async function LoginPage({
               >
                 Password
               </label>
-              <input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 required
                 autoComplete="current-password"
                 placeholder="••••••••"

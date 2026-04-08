@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Lock, ArrowRight } from "lucide-react";
+import { PasswordInput } from "./ui/PasswordInput";
 
 interface Props {
   token: string;
@@ -55,22 +56,21 @@ export function ResetPasswordForm({ token }: Props) {
         >
           New Password
         </label>
-        <div className="relative">
-          <Lock
-            size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
-          />
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            minLength={6}
-            autoComplete="new-password"
-            placeholder="At least 6 characters"
-            className="w-full pl-9 pr-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
-          />
-        </div>
+        <PasswordInput
+          id="password"
+          name="password"
+          required
+          minLength={6}
+          autoComplete="new-password"
+          placeholder="At least 6 characters"
+          className="w-full pl-9 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          leftIcon={
+            <Lock
+              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+            />
+          }
+        />
       </div>
 
       <div>
@@ -80,22 +80,21 @@ export function ResetPasswordForm({ token }: Props) {
         >
           Confirm Password
         </label>
-        <div className="relative">
-          <Lock
-            size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
-          />
-          <input
-            id="confirm"
-            name="confirm"
-            type="password"
-            required
-            minLength={6}
-            autoComplete="new-password"
-            placeholder="Repeat password"
-            className="w-full pl-9 pr-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
-          />
-        </div>
+        <PasswordInput
+          id="confirm"
+          name="confirm"
+          required
+          minLength={6}
+          autoComplete="new-password"
+          placeholder="Repeat password"
+          className="w-full pl-9 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          leftIcon={
+            <Lock
+              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+            />
+          }
+        />
       </div>
 
       <button

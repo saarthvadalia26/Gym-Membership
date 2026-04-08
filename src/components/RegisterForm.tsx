@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Building2, Mail, Lock, MapPin, Phone, ArrowRight } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { PasswordInput } from "./ui/PasswordInput";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -184,22 +185,40 @@ function Field({
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
-      <div className="relative">
-        <Icon
-          size={15}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
-        />
-        <input
+      {type === "password" ? (
+        <PasswordInput
           id={name}
           name={name}
-          type={type}
           placeholder={placeholder}
           required={required}
           minLength={minLength}
           autoComplete={autoComplete}
-          className="w-full pl-9 pr-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          className="w-full pl-9 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          leftIcon={
+            <Icon
+              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+            />
+          }
         />
-      </div>
+      ) : (
+        <div className="relative">
+          <Icon
+            size={15}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+          />
+          <input
+            id={name}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            required={required}
+            minLength={minLength}
+            autoComplete={autoComplete}
+            className="w-full pl-9 pr-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          />
+        </div>
+      )}
     </div>
   );
 }

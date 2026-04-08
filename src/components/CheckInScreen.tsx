@@ -72,8 +72,12 @@ export function CheckInScreen() {
     setResults([]);
   }
 
-  async function handleScan(token: string) {
+  async function handleScan(raw: string) {
     setScannerOpen(false);
+    // QRs now encode `https://<host>/m/<token>` so phone cameras open them as
+    // a link, but earlier QRs encoded just the token. Accept both.
+    const match = raw.match(/\/m\/([^/?#]+)/);
+    const token = (match ? match[1] : raw).trim();
     const res = await fetch("/api/checkin/by-token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Plus, Trash2, Crown, Dumbbell, X, Check } from "lucide-react";
 import { format } from "date-fns";
 import { ConfirmDialog } from "./ui/ConfirmDialog";
+import { PasswordInput } from "./ui/PasswordInput";
 
 interface StaffUser {
   id: string;
@@ -145,13 +146,13 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
                       required
                       className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm flex-1 min-w-40 focus:outline-none focus:ring-2 focus:ring-brand-500"
                     />
-                    <input
+                    <PasswordInput
                       name="password"
-                      type="password"
                       placeholder="Password (min 6)"
                       required
                       minLength={6}
-                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-44 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      wrapperClassName="w-44"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-brand-500"
                     />
                     <select
                       name="role"

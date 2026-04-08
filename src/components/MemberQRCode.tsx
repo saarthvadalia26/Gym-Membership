@@ -1,4 +1,5 @@
 import QRCode from "qrcode";
+import { headers } from "next/headers";
 
 interface Props {
   token: string;
@@ -8,11 +9,18 @@ interface Props {
 
 /**
  * Server component that renders a member's check-in QR as an inline SVG.
- * The QR encodes just the token (not a URL) — the check-in scanner reads it
- * and looks up the member directly. Smaller QR = easier to scan in poor light.
+ *
+ * The QR encodes the full member-portal URL (`https://<host>/m/<token>`) so a
+ * generic phone camera (Google Lens, iOS Camera, etc.) shows a tappable link.
+ * The in-app check-in scanner extracts the token from the URL — both forms work.
  */
 export async function MemberQRCode({ token, size = 200, className }: Props) {
-  const svg = await QRCode.toString(token, {
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "";
+  const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
+  const url = host ? `${proto}://${host}/m/${token}` : `/m/${token}`;
+
+  const svg = await QRCode.toString(url, {
     type: "svg",
     errorCorrectionLevel: "M",
     margin: 1,

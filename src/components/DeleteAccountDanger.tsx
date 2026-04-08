@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { AlertTriangle, Trash2 } from "lucide-react";
 import { signOutAction } from "@/app/actions";
+import { PasswordInput } from "./ui/PasswordInput";
 
 interface Props {
   gymName: string;
@@ -102,9 +103,8 @@ export function DeleteAccountDanger({ gymName }: Props) {
                 >
                   Confirm with your password
                 </label>
-                <input
+                <PasswordInput
                   id="del-password"
-                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
