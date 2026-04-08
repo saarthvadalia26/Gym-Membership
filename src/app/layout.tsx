@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Gym Membership — Subscription Management",
   description: "Subscription management for gyms and clubs",
   applicationName: "Gym Membership",
+  manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

@@ -2,11 +2,15 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: "/",
     name: "Gym Membership — Subscription Management",
     short_name: "Gym",
     description:
       "Manage gym subscriptions, members, check-ins, and receipts from one dashboard.",
-    start_url: "/",
+    // Point at /login because the root redirects unauthenticated visitors —
+    // Chrome's installability check requires start_url to return 200 directly.
+    start_url: "/login",
+    scope: "/",
     display: "standalone",
     orientation: "portrait",
     background_color: "#0b1020",
