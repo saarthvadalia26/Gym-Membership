@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Plus, Calendar, Phone, AlertCircle, Activity } from "lucide-react";
-import { format } from "date-fns";
+import {
+  ArrowLeft,
+  Plus,
+  Calendar,
+  Phone,
+  AlertCircle,
+  Activity,
+  Cake,
+} from "lucide-react";
+import { differenceInYears, format } from "date-fns";
 import { prisma } from "@/lib/db";
 import { requireSession } from "@/lib/auth";
 import { computeStatus, daysRemaining } from "@/lib/status";
@@ -108,6 +116,13 @@ export default async function MemberDetailPage({
                   <Calendar size={13} />
                   Joined {format(member.joinDate, "dd MMM yyyy")}
                 </span>
+                {member.dateOfBirth && (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Cake size={13} />
+                    {format(member.dateOfBirth, "dd MMM")} (age{" "}
+                    {differenceInYears(new Date(), member.dateOfBirth)})
+                  </span>
+                )}
               </div>
             </div>
           </div>

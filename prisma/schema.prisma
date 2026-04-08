@@ -55,6 +55,7 @@ model Member {
   fullName         String
   phoneNumber      String
   joinDate         DateTime       @default(now())
+  dateOfBirth      DateTime?
   emergencyContact String?
   accessToken      String?        @unique
   createdAt        DateTime       @default(now())

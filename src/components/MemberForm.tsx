@@ -10,6 +10,7 @@ interface Props {
     fullName: string;
     phoneNumber: string;
     emergencyContact: string | null;
+    dateOfBirth?: string | null;
   };
   mode: "create" | "edit";
 }
@@ -27,6 +28,7 @@ export function MemberForm({ initial, mode }: Props) {
       fullName: String(formData.get("fullName") ?? ""),
       phoneNumber: String(formData.get("phoneNumber") ?? ""),
       emergencyContact: String(formData.get("emergencyContact") ?? ""),
+      dateOfBirth: String(formData.get("dateOfBirth") ?? ""),
     };
 
     const url = mode === "create" ? "/api/members" : `/api/members/${initial?.id}`;
@@ -82,6 +84,25 @@ export function MemberForm({ initial, mode }: Props) {
           defaultValue={initial?.phoneNumber}
           className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+          Date of Birth <span className="text-slate-400 font-normal">(optional)</span>
+        </label>
+        <input
+          type="date"
+          name="dateOfBirth"
+          defaultValue={
+            initial?.dateOfBirth
+              ? new Date(initial.dateOfBirth).toISOString().slice(0, 10)
+              : ""
+          }
+          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+        />
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+          We&apos;ll surface their birthday on the dashboard so you can wish them.
+        </p>
       </div>
 
       <div>

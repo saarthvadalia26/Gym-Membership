@@ -8,6 +8,7 @@ import { buildWhatsAppReminderLink } from "@/lib/whatsapp";
 import { StatsCards } from "@/components/StatsCards";
 import { StatusBadge } from "@/components/StatusBadge";
 import { CollectionsChart } from "@/components/CollectionsChart";
+import { BirthdaysToday } from "@/components/BirthdaysToday";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,23 @@ export default async function DashboardPage() {
       },
     },
   });
+
+  // Birthdays today — match month+day, year-agnostic. Done in JS rather than
+  // SQL because Prisma doesn't expose EXTRACT() and the gym is small enough.
+  const todayMonth = today.getMonth();
+  const todayDay = today.getDate();
+  const birthdaysToday = members
+    .filter((m) => {
+      if (!m.dateOfBirth) return false;
+      const dob = new Date(m.dateOfBirth);
+      return dob.getMonth() === todayMonth && dob.getDate() === todayDay;
+    })
+    .map((m) => ({
+      id: m.id,
+      fullName: m.fullName,
+      phoneNumber: m.phoneNumber,
+      dateOfBirth: m.dateOfBirth as Date,
+    }));
 
   const buckets: Record<Status, Row[]> = { RED: [], YELLOW: [], GREEN: [] };
 
@@ -125,6 +143,8 @@ export default async function DashboardPage() {
           }}
         />
       </div>
+
+      <BirthdaysToday members={birthdaysToday} gymName={gym.name} />
 
       <div className="mb-8">
         <CollectionsChart data={monthly} />

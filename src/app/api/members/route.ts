@@ -13,6 +13,7 @@ const createSchema = z.object({
   fullName: z.string().min(1, "Name is required").max(120),
   phoneNumber: z.string().min(7, "Phone number is required").max(20),
   emergencyContact: z.string().max(120).optional().or(z.literal("")),
+  dateOfBirth: z.string().optional().or(z.literal("")),
 });
 
 export async function GET(req: NextRequest) {
@@ -64,6 +65,7 @@ export async function POST(req: NextRequest) {
         fullName: data.fullName,
         phoneNumber: data.phoneNumber,
         emergencyContact: data.emergencyContact || null,
+        dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
         accessToken: generateAccessToken(),
       },
     });

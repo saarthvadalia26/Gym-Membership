@@ -7,6 +7,7 @@ const updateSchema = z.object({
   fullName: z.string().min(1).max(120).optional(),
   phoneNumber: z.string().min(7).max(20).optional(),
   emergencyContact: z.string().max(120).nullable().optional(),
+  dateOfBirth: z.string().nullable().optional(),
 });
 
 export async function GET(
@@ -51,9 +52,21 @@ export async function PATCH(
   const existing = await prisma.member.findFirst({ where: { id, gymId } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
+  // Convert dateOfBirth string to Date if present
+  const { dateOfBirth, ...rest } = parsed.data;
+  const updates: {
+    fullName?: string;
+    phoneNumber?: string;
+    emergencyContact?: string | null;
+    dateOfBirth?: Date | null;
+  } = { ...rest };
+  if (dateOfBirth !== undefined) {
+    updates.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : null;
+  }
+
   const member = await prisma.member.update({
     where: { id },
-    data: parsed.data,
+    data: updates,
   });
   return NextResponse.json(member);
 }
