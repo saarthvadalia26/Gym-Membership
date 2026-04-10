@@ -37,7 +37,7 @@ export function ForgotPasswordForm() {
 
   if (done) {
     return (
-      <div className="rounded-2xl border border-emerald-800 bg-emerald-950/40 p-5 text-center">
+      <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 text-center">
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-950/60 mb-3">
           <CheckCircle2
             className="text-emerald-600"
@@ -47,7 +47,7 @@ export function ForgotPasswordForm() {
         <h2 className="font-semibold text-emerald-900">
           Check your inbox
         </h2>
-        <p className="text-sm text-emerald-400 mt-1.5 leading-relaxed">
+        <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1.5 leading-relaxed">
           If an account exists for that email, we&apos;ve sent a link to
           reset your password. The link expires in 1 hour.
         </p>
@@ -60,7 +60,7 @@ export function ForgotPasswordForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
         >
           Email
         </label>
@@ -76,7 +76,7 @@ export function ForgotPasswordForm() {
             required
             autoComplete="email"
             placeholder="you@yourgym.com"
-            className="w-full pl-9 pr-3.5 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
+            className="w-full pl-9 pr-3.5 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           />
         </div>
       </div>

@@ -119,8 +119,8 @@ export function RegisterForm() {
         />
       </div>
 
-      <div className="border-t border-slate-700/60 pt-4 mt-2">
-        <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+      <div className="border-t border-slate-300 dark:border-slate-700/60 pt-4 mt-2">
+        <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
           Optional — shown on PDF receipts
         </div>
         <div className="space-y-3">
@@ -180,7 +180,7 @@ function Field({
     <div>
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-slate-300 mb-1.5"
+        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
       >
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
@@ -193,7 +193,7 @@ function Field({
           required={required}
           minLength={minLength}
           autoComplete={autoComplete}
-          className="w-full pl-9 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
+          className="w-full pl-9 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           leftIcon={
             <Icon
               size={15}
@@ -215,7 +215,7 @@ function Field({
             required={required}
             minLength={minLength}
             autoComplete={autoComplete}
-            className="w-full pl-9 pr-3.5 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
+            className="w-full pl-9 pr-3.5 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           />
         </div>
       )}

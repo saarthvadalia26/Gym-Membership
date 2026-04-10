@@ -38,12 +38,12 @@ export function BirthdaysToday({ members, gymName }: Props) {
   const today = new Date();
 
   return (
-    <div className="bg-gradient-to-br from-pink-950/30 to-amber-950/30 rounded-2xl border border-pink-900/60 shadow-soft p-5 mb-6">
+    <div className="bg-gradient-to-br from-pink-50 to-amber-50 dark:from-pink-950/30 dark:to-amber-950/30 rounded-2xl border border-pink-200 dark:border-pink-900/60 shadow-soft p-5 mb-6">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-8 h-8 rounded-full bg-pink-950/60 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-950/60 flex items-center justify-center">
           <Cake size={16} className="text-pink-600" />
         </div>
-        <h2 className="font-semibold text-slate-100">
+        <h2 className="font-semibold text-slate-900 dark:text-slate-100">
           {members.length === 1
             ? "1 birthday today"
             : `${members.length} birthdays today`}
@@ -65,10 +65,10 @@ export function BirthdaysToday({ members, gymName }: Props) {
               >
                 <span className="text-2xl shrink-0">🎂</span>
                 <div className="min-w-0">
-                  <div className="font-semibold text-slate-100 truncate">
+                  <div className="font-semibold text-slate-900 dark:text-slate-100 truncate">
                     {m.fullName}
                   </div>
-                  <div className="text-xs text-slate-400 mt-0.5">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     Turning {turning} • {format(dob, "dd MMM")}
                   </div>
                 </div>

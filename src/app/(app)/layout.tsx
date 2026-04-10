@@ -24,7 +24,7 @@ export default async function AppLayout({
   const role = u.role === "TRAINER" ? "TRAINER" : "OWNER";
 
   return (
-    <div className="lg:flex min-h-screen bg-[#0f172a]">
+    <div className="lg:flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-brand-50/30 dark:from-[#0f172a] dark:via-[#0f172a] dark:to-[#1a2e05]/20">
       <Sidebar gymName={gym.name} role={role} />
       <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-auto">{children}</main>
       <CommandPalette />

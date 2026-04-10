@@ -3,17 +3,17 @@ import { cn } from "@/lib/utils";
 
 const styles: Record<Status, string> = {
   GREEN:
-    "bg-emerald-950/60 text-emerald-400 border-emerald-800 ",
+    "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-400 dark:border-emerald-800 ",
   YELLOW:
-    "bg-amber-950/60 text-amber-400 border-amber-800 ",
+    "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-400 dark:border-amber-800 ",
   RED:
-    "bg-red-950/60 text-red-400 border-red-800 ",
+    "bg-red-100 text-red-700 border-red-200 dark:bg-red-950/60 dark:text-red-400 dark:border-red-800 ",
 };
 
 const dotStyles: Record<Status, string> = {
-  GREEN: "bg-emerald-950/400",
-  YELLOW: "bg-amber-950/400",
-  RED: "bg-red-950/400",
+  GREEN: "bg-emerald-50 dark:bg-emerald-950/400",
+  YELLOW: "bg-amber-50 dark:bg-amber-950/400",
+  RED: "bg-red-50 dark:bg-red-950/400",
 };
 
 export function StatusBadge({

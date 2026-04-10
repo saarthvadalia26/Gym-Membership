@@ -20,13 +20,13 @@ export function CollectionsChart({ data }: Props) {
   const forecast = data.find((d) => d.isForecast);
 
   return (
-    <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-soft p-6">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">
       <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Collections Trend
           </h3>
-          <div className="mt-1.5 text-2xl font-bold text-slate-100 tracking-tight">
+          <div className="mt-1.5 text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             {formatINRCompact(total)}
             <span className="text-sm text-slate-500 font-normal ml-2">
               past 6 months
@@ -35,10 +35,10 @@ export function CollectionsChart({ data }: Props) {
         </div>
         {forecast && (
           <div className="text-right">
-            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Forecast (next 30d)
             </div>
-            <div className="mt-1.5 text-xl font-bold text-cyan-400">
+            <div className="mt-1.5 text-xl font-bold text-cyan-600 dark:text-cyan-400">
               {formatINRCompact(forecast.paise)}
             </div>
           </div>
@@ -58,7 +58,7 @@ export function CollectionsChart({ data }: Props) {
                 onMouseLeave={() => setHoverIdx(null)}
               >
                 {isHovered && (
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none animate-fade-in z-10">
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none animate-fade-in z-10">
                     {d.label}: {formatINRCompact(d.paise)}
                   </div>
                 )}
@@ -66,7 +66,7 @@ export function CollectionsChart({ data }: Props) {
                   <div
                     className={
                       d.isForecast
-                        ? "w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-cyan-800 to-cyan-600 border-2 border-dashed border-cyan-500 transition-all"
+                        ? "w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-cyan-300 to-cyan-200 dark:from-cyan-800 dark:to-cyan-600 border-2 border-dashed border-cyan-400 dark:border-cyan-500 transition-all"
                         : `w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-brand-600 to-brand-400 transition-all ${
                             isHovered ? "shadow-glow scale-105" : ""
                           }`
@@ -77,7 +77,7 @@ export function CollectionsChart({ data }: Props) {
                   className={`text-[10px] sm:text-xs font-medium ${
                     d.isForecast
                       ? "text-cyan-400"
-                      : "text-slate-400"
+                      : "text-slate-500 dark:text-slate-400"
                   }`}
                 >
                   {d.label}
@@ -91,11 +91,11 @@ export function CollectionsChart({ data }: Props) {
       <div className="mt-5 pt-5 border-t border-slate-100 flex items-center gap-5 text-xs">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded bg-gradient-to-t from-brand-600 to-brand-400" />
-          <span className="text-slate-400">Actual</span>
+          <span className="text-slate-500 dark:text-slate-400">Actual</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded bg-cyan-800 border-2 border-dashed border-cyan-500" />
-          <span className="text-slate-400">Projected</span>
+          <div className="w-3 h-3 rounded bg-cyan-200 dark:bg-cyan-800 border-2 border-dashed border-cyan-400 dark:border-cyan-500" />
+          <span className="text-slate-500 dark:text-slate-400">Projected</span>
         </div>
       </div>
     </div>

@@ -15,12 +15,12 @@ export default function MemberPortalError({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-slate-950">
-      <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl shadow-soft p-6 text-center">
-        <h1 className="text-lg font-semibold text-slate-100">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-slate-50 dark:bg-slate-950">
+      <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-soft p-6 text-center">
+        <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
           Could not load this member page
         </h1>
-        <p className="text-sm text-slate-400 mt-2">
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
           {error.message || "Unknown error"}
         </p>
         {error.digest && (

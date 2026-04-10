@@ -114,13 +114,13 @@ export function CheckInScreen() {
       <div
         className={`rounded-3xl border-2 p-12 text-center shadow-soft animate-pop ${
           feedback.allowed
-            ? "bg-emerald-950/40 border-emerald-400"
-            : "bg-red-950/40 border-red-400"
+            ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-400"
+            : "bg-red-50 dark:bg-red-950/40 border-red-400"
         }`}
       >
         <div
           className={`inline-flex items-center justify-center w-32 h-32 rounded-full shadow-lg ${
-            feedback.allowed ? "bg-emerald-950/400" : "bg-red-950/400"
+            feedback.allowed ? "bg-emerald-50 dark:bg-emerald-950/400" : "bg-red-50 dark:bg-red-950/400"
           }`}
         >
           {feedback.allowed ? (
@@ -138,11 +138,11 @@ export function CheckInScreen() {
         >
           {feedback.allowed ? "ALLOWED" : "DENIED"}
         </div>
-        <div className="text-2xl font-semibold text-slate-100 mt-4">
+        <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-4">
           {feedback.member.fullName}
         </div>
         {feedback.subscription && expiry && (
-          <div className="mt-3 text-slate-400">
+          <div className="mt-3 text-slate-500 dark:text-slate-400">
             <div className="text-base">
               {feedback.subscription.planName} • valid till{" "}
               {format(expiry, "dd MMM yyyy")}
@@ -151,14 +151,14 @@ export function CheckInScreen() {
               <div className="text-sm mt-1">{days} days remaining</div>
             )}
             {days !== null && days < 0 && (
-              <div className="text-sm mt-1 text-red-400 font-semibold">
+              <div className="text-sm mt-1 text-red-600 dark:text-red-400 font-semibold">
                 Expired {Math.abs(days)} days ago — please renew
               </div>
             )}
           </div>
         )}
         {!feedback.subscription && (
-          <div className="mt-3 text-red-400 font-medium">
+          <div className="mt-3 text-red-600 dark:text-red-400 font-medium">
             No active subscription
           </div>
         )}
@@ -170,7 +170,7 @@ export function CheckInScreen() {
     <div>
       <div className="max-w-2xl mx-auto flex items-center gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={24} />
           <input
             ref={inputRef}
             autoFocus
@@ -178,7 +178,7 @@ export function CheckInScreen() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search member by name or phone…"
-            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-400/50/30 focus:border-brand-400 bg-slate-900 text-slate-100 shadow-sm placeholder:text-slate-400"
+            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-400/50/30 focus:border-brand-400 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm placeholder:text-slate-400"
           />
         </div>
         <button
@@ -219,13 +219,13 @@ export function CheckInScreen() {
               <button
                 key={m.id}
                 onClick={() => handleCheckIn(m.id)}
-                className="w-full flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-brand-400 hover:shadow-md transition text-left"
+                className="w-full flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-brand-400 hover:shadow-md transition text-left"
               >
                 <div>
-                  <div className="font-semibold text-slate-100 text-lg">
+                  <div className="font-semibold text-slate-900 dark:text-slate-100 text-lg">
                     {m.fullName}
                   </div>
-                  <div className="text-sm text-slate-400 mt-0.5">
+                  <div className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
                     {m.phoneNumber}
                     {sub && ` • ${sub.plan.name}`}
                   </div>

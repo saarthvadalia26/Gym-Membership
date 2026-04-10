@@ -82,9 +82,9 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
 
   return (
     <div>
-      <div className="bg-slate-800/40 rounded-xl border border-slate-700 overflow-hidden">
+      <div className="bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-300 dark:border-slate-700 overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="text-slate-400 text-xs uppercase tracking-wider">
+          <thead className="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
             <tr>
               <th className="text-left px-4 py-3 font-semibold">Email</th>
               <th className="text-left px-4 py-3 font-semibold">Role</th>
@@ -92,38 +92,38 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
               <th className="px-4 py-3 w-10" />
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-700">
+          <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
             {staff.map((u) => (
               <tr key={u.id} className="hover:bg-white/60">
-                <td className="px-4 py-3 text-slate-100 font-medium">
+                <td className="px-4 py-3 text-slate-900 dark:text-slate-100 font-medium">
                   {u.email}
                   {u.id === currentUserId && (
-                    <span className="ml-2 text-xs text-slate-400 font-normal">
+                    <span className="ml-2 text-xs text-slate-500 dark:text-slate-400 font-normal">
                       (you)
                     </span>
                   )}
                 </td>
                 <td className="px-4 py-3">
                   {u.role === "OWNER" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-950/60 text-amber-400 border border-amber-200">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200">
                       <Crown size={11} />
                       Owner
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-900 text-brand-300 border border-brand-800">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800">
                       <Dumbbell size={11} />
                       Trainer
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-slate-400 text-xs">
+                <td className="px-4 py-3 text-slate-500 dark:text-slate-400 text-xs">
                   {format(new Date(u.createdAt), "dd MMM yyyy")}
                 </td>
                 <td className="px-4 py-3 text-right">
                   {u.id !== currentUserId && (
                     <button
                       onClick={() => setDeleteTarget(u)}
-                      className="p-1.5 text-red-400 hover:bg-red-950/40 rounded transition"
+                      className="p-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:bg-red-950/40 rounded transition"
                       title="Remove"
                     >
                       <Trash2 size={14} />
@@ -133,7 +133,7 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
               </tr>
             ))}
             {adding && (
-              <tr className="bg-slate-800/60">
+              <tr className="bg-slate-100 dark:bg-slate-800/60">
                 <td colSpan={4} className="px-4 py-3">
                   <form
                     onSubmit={handleCreate}
@@ -144,7 +144,7 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
                       type="email"
                       placeholder="trainer@email.com"
                       required
-                      className="px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm flex-1 min-w-40 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm flex-1 min-w-40 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                     />
                     <PasswordInput
                       name="password"
@@ -152,19 +152,19 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
                       required
                       minLength={6}
                       wrapperClassName="w-44"
-                      className="px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                     />
                     <select
                       name="role"
                       defaultValue="TRAINER"
-                      className="px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                     >
                       <option value="TRAINER">Trainer</option>
                       <option value="OWNER">Owner</option>
                     </select>
                     <button
                       type="submit"
-                      className="p-1.5 text-emerald-600 hover:bg-emerald-950/40 rounded transition"
+                      className="p-1.5 text-emerald-600 hover:bg-emerald-50 dark:bg-emerald-950/40 rounded transition"
                       title="Create"
                     >
                       <Check size={16} />
@@ -172,7 +172,7 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
                     <button
                       type="button"
                       onClick={() => setAdding(false)}
-                      className="p-1.5 text-slate-400 hover:bg-slate-800 rounded transition"
+                      className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition"
                       title="Cancel"
                     >
                       <X size={16} />
@@ -195,7 +195,7 @@ export function StaffManager({ initialStaff, currentUserId }: Props) {
         </button>
       )}
 
-      <p className="text-xs text-slate-400 mt-4 leading-relaxed">
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">
         <strong>Trainers</strong> can do check-ins and view members. <strong>Owners</strong> can do everything: edit plans, record payments, delete members, and manage staff.
       </p>
 

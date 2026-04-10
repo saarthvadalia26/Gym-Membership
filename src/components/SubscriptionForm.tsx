@@ -126,7 +126,7 @@ export function SubscriptionForm({
 
   if (plans.length === 0) {
     return (
-      <div className="rounded-xl bg-amber-950/40 border border-amber-800 p-5 text-amber-800">
+      <div className="rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-5 text-amber-800">
         You haven&apos;t created any plans yet.{" "}
         <a href="/plans" className="font-semibold underline">
           Create a plan first
@@ -139,22 +139,22 @@ export function SubscriptionForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-lg">
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Member
         </label>
-        <div className="px-3.5 py-2.5 bg-slate-800 rounded-lg text-slate-200 font-medium">
+        <div className="px-3.5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 font-medium">
           {memberName}
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Plan
         </label>
         <select
           value={planId}
           onChange={(e) => onPlanChange(e.target.value)}
-          className="w-full px-3.5 py-2.5 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition bg-slate-900 text-slate-100"
+          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
         >
           {plans.map((p) => (
             <option key={p.id} value={p.id}>
@@ -165,28 +165,28 @@ export function SubscriptionForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Start Date
         </label>
         <input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
+          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
         />
       </div>
 
       {/* Pricing summary card */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Pricing
           </label>
           {!discountOpen && (
             <button
               type="button"
               onClick={() => setDiscountOpen(true)}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-400 hover:text-brand-300 transition"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition"
             >
               <Tag size={12} />
               Apply Discount
@@ -194,23 +194,23 @@ export function SubscriptionForm({
           )}
         </div>
 
-        <div className="rounded-xl border border-slate-700 bg-slate-800/40 p-4 space-y-2.5">
+        <div className="rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 p-4 space-y-2.5">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-slate-400">Plan price</span>
+            <span className="text-slate-500 dark:text-slate-400">Plan price</span>
             <span className="font-medium text-slate-900">
               {formatINR(planPaise)}
             </span>
           </div>
 
           {hasReferralCredit && (
-            <label className="flex items-start gap-2.5 px-3 py-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800 cursor-pointer">
+            <label className="flex items-start gap-2.5 px-3 py-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 cursor-pointer">
               <input
                 type="checkbox"
                 checked={useReferralCredit}
                 onChange={(e) => setUseReferralCredit(e.target.checked)}
                 className="mt-0.5 h-4 w-4 rounded border-emerald-400 text-emerald-600 focus:ring-emerald-500"
               />
-              <span className="flex-1 text-xs text-emerald-300 leading-relaxed">
+              <span className="flex-1 text-xs text-emerald-700 dark:text-emerald-300 leading-relaxed">
                 <span className="inline-flex items-center gap-1 font-semibold">
                   <Gift size={12} />
                   Referral credit available
@@ -238,16 +238,16 @@ export function SubscriptionForm({
           )}
 
           {discountOpen && (
-            <div className="pt-2.5 border-t border-slate-700 space-y-2.5">
+            <div className="pt-2.5 border-t border-slate-300 dark:border-slate-700 space-y-2.5">
               <div className="flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-1 p-1 rounded-lg bg-slate-900 border border-slate-700 shrink-0">
+                <div className="grid grid-cols-2 gap-1 p-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 shrink-0">
                   <button
                     type="button"
                     onClick={() => setDiscountMode("percent")}
                     className={
                       discountMode === "percent"
                         ? "px-2.5 py-1 text-xs font-semibold rounded bg-brand-400 text-slate-950"
-                        : "px-2.5 py-1 text-xs font-semibold rounded text-slate-400 hover:text-slate-200"
+                        : "px-2.5 py-1 text-xs font-semibold rounded text-slate-500 dark:text-slate-400 hover:text-slate-200"
                     }
                   >
                     %
@@ -258,7 +258,7 @@ export function SubscriptionForm({
                     className={
                       discountMode === "amount"
                         ? "px-2.5 py-1 text-xs font-semibold rounded bg-brand-400 text-slate-950"
-                        : "px-2.5 py-1 text-xs font-semibold rounded text-slate-400 hover:text-slate-200"
+                        : "px-2.5 py-1 text-xs font-semibold rounded text-slate-500 dark:text-slate-400 hover:text-slate-200"
                     }
                   >
                     ₹
@@ -274,12 +274,12 @@ export function SubscriptionForm({
                   onChange={(e) => setDiscountValue(e.target.value)}
                   placeholder={discountMode === "percent" ? "10" : "200"}
                   autoFocus
-                  className="flex-1 min-w-0 px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                  className="flex-1 min-w-0 px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                 />
                 <button
                   type="button"
                   onClick={clearDiscount}
-                  className="p-1.5 text-slate-400 hover:bg-slate-200 rounded transition shrink-0"
+                  className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 dark:bg-slate-700 rounded transition shrink-0"
                   title="Remove discount"
                 >
                   <X size={14} />
@@ -302,11 +302,11 @@ export function SubscriptionForm({
             </div>
           )}
 
-          <div className="pt-2.5 border-t border-slate-700 flex items-center justify-between">
-            <span className="text-sm font-semibold text-slate-300">
+          <div className="pt-2.5 border-t border-slate-300 dark:border-slate-700 flex items-center justify-between">
+            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
               Total Payable
             </span>
-            <span className="text-lg font-bold text-brand-400 tracking-tight">
+            <span className="text-lg font-bold text-brand-600 dark:text-brand-400 tracking-tight">
               {formatINR(finalPricePaise)}
             </span>
           </div>
@@ -314,7 +314,7 @@ export function SubscriptionForm({
       </div>
 
       {previewEnd && (
-        <div className="bg-brand-950/40 border border-brand-800 rounded-xl p-3.5 text-sm text-brand-200">
+        <div className="bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800 rounded-xl p-3.5 text-sm text-brand-800 dark:text-brand-200">
           Subscription will be valid until{" "}
           <strong>{format(previewEnd, "dd MMM yyyy")}</strong>.
         </div>

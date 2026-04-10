@@ -23,7 +23,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f172a",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -38,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${oswald.variable} font-sans bg-[#0f172a] text-slate-100 transition-colors`}
+        className={`${inter.variable} ${oswald.variable} font-sans bg-slate-50 text-slate-900 dark:bg-gradient-to-br from-slate-50 via-white to-brand-50/30 dark:from-[#0f172a] dark:via-[#0f172a] dark:to-[#1a2e05]/20 dark:text-slate-100 transition-colors`}
       >
         <ThemeProvider>
           {children}
@@ -46,7 +49,7 @@ export default function RootLayout({
             position="top-right"
             richColors
             closeButton
-            theme="dark"
+            theme="system"
             toastOptions={{
               style: {
                 fontFamily: "var(--font-inter), system-ui, sans-serif",

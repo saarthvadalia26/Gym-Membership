@@ -70,81 +70,81 @@ export function SettingsForm({ currentEmail }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Current Email
         </label>
-        <div className="px-3.5 py-2.5 bg-slate-800 rounded-lg text-slate-200 text-sm">
+        <div className="px-3.5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 text-sm">
           {currentEmail}
         </div>
       </div>
 
-      <div className="border-t border-slate-800 pt-6">
+      <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
         <div className="flex items-center gap-2 mb-4">
-          <Mail size={16} className="text-brand-400" />
-          <h3 className="text-sm font-semibold text-slate-100">Change Email</h3>
+          <Mail size={16} className="text-brand-600 dark:text-brand-400" />
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Change Email</h3>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">
-            New Email <span className="text-slate-400 font-normal">(optional)</span>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+            New Email <span className="text-slate-500 dark:text-slate-400 font-normal">(optional)</span>
           </label>
           <input
             name="newEmail"
             type="email"
             placeholder="you@yourgym.com"
-            className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
+            className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
           />
-          <p className="text-xs text-slate-400 mt-1.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
             Changing your email will sign you out so you can sign back in with the new address.
           </p>
         </div>
       </div>
 
-      <div className="border-t border-slate-800 pt-6">
+      <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
         <div className="flex items-center gap-2 mb-4">
-          <Lock size={16} className="text-brand-400" />
-          <h3 className="text-sm font-semibold text-slate-100">Change Password</h3>
+          <Lock size={16} className="text-brand-600 dark:text-brand-400" />
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Change Password</h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">
-              New Password <span className="text-slate-400 font-normal">(optional)</span>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              New Password <span className="text-slate-500 dark:text-slate-400 font-normal">(optional)</span>
             </label>
             <PasswordInput
               name="newPassword"
               autoComplete="new-password"
               minLength={6}
-              className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
+              className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
               Confirm New Password
             </label>
             <PasswordInput
               name="confirmPassword"
               autoComplete="new-password"
               minLength={6}
-              className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
+              className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
             />
           </div>
         </div>
-        <p className="text-xs text-slate-400 mt-1.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
           Minimum 6 characters. Leave blank to keep your current password.
         </p>
       </div>
 
-      <div className="border-t border-slate-800 pt-6">
+      <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
             Current Password <span className="text-red-500">*</span>
           </label>
           <PasswordInput
             name="currentPassword"
             autoComplete="current-password"
             required
-            className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
+            className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
           />
-          <p className="text-xs text-slate-400 mt-1.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
             Required to confirm any changes.
           </p>
         </div>

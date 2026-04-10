@@ -77,17 +77,17 @@ export function CommandPalette() {
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
         onClick={() => setOpen(false)}
       />
-      <div className="relative w-full max-w-xl bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden animate-slide-up">
+      <div className="relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-300 dark:border-slate-700 overflow-hidden animate-slide-up">
         <Command label="Command palette" loop>
-          <div className="flex items-center gap-3 px-4 border-b border-slate-700">
-            <Search size={18} className="text-slate-400 shrink-0" />
+          <div className="flex items-center gap-3 px-4 border-b border-slate-300 dark:border-slate-700">
+            <Search size={18} className="text-slate-500 dark:text-slate-400 shrink-0" />
             <Command.Input
               placeholder="Search members or jump to a page…"
               value={search}
               onValueChange={setSearch}
               autoFocus
             />
-            <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono border border-slate-700 text-slate-500 shrink-0">
+            <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono border border-slate-300 dark:border-slate-700 text-slate-500 shrink-0">
               ESC
             </kbd>
           </div>
@@ -103,7 +103,7 @@ export function CommandPalette() {
                     value={`member-${m.id}-${m.fullName}-${m.phoneNumber}`}
                     onSelect={() => go(`/members/${m.id}`)}
                   >
-                    <div className="w-8 h-8 rounded-full bg-brand-900 text-brand-300 flex items-center justify-center font-semibold text-xs shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 flex items-center justify-center font-semibold text-xs shrink-0">
                       {m.fullName
                         .split(" ")
                         .map((n) => n[0])
@@ -112,7 +112,7 @@ export function CommandPalette() {
                         .toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-medium text-slate-100 truncate">
+                      <div className="font-medium text-slate-900 dark:text-slate-100 truncate">
                         {m.fullName}
                       </div>
                       <div className="text-xs text-slate-500 truncate">
@@ -168,18 +168,18 @@ export function CommandPalette() {
             </Command.Group>
           </Command.List>
 
-          <div className="border-t border-slate-700 px-4 py-2.5 flex items-center justify-between text-[11px] text-slate-500">
+          <div className="border-t border-slate-300 dark:border-slate-700 px-4 py-2.5 flex items-center justify-between text-[11px] text-slate-500">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <kbd className="px-1 py-0.5 rounded border border-slate-700 font-mono">↑↓</kbd>
+                <kbd className="px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 font-mono">↑↓</kbd>
                 navigate
               </span>
               <span className="flex items-center gap-1">
-                <kbd className="px-1 py-0.5 rounded border border-slate-700 font-mono">↵</kbd>
+                <kbd className="px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 font-mono">↵</kbd>
                 select
               </span>
             </div>
-            <span className="font-semibold text-slate-400">⌘K</span>
+            <span className="font-semibold text-slate-500 dark:text-slate-400">⌘K</span>
           </div>
         </Command>
       </div>

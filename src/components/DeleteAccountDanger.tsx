@@ -55,7 +55,7 @@ export function DeleteAccountDanger({ gymName }: Props) {
           <h3 className="text-sm font-semibold text-red-700">
             Delete this account
           </h3>
-          <p className="text-sm text-slate-400 mt-1.5">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
             Permanently delete <strong>{gymName}</strong> and everything in it
             — all members, plans, subscriptions, and check-in history.{" "}
             <span className="font-semibold text-red-600">
@@ -66,7 +66,7 @@ export function DeleteAccountDanger({ gymName }: Props) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-2 bg-slate-900 hover:bg-red-950/40 text-red-400 font-semibold px-4 py-2.5 rounded-lg border border-red-800 transition shadow-sm shrink-0"
+          className="inline-flex items-center gap-2 bg-white dark:bg-slate-900 hover:bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 font-semibold px-4 py-2.5 rounded-lg border border-red-200 dark:border-red-800 transition shadow-sm shrink-0"
         >
           <Trash2 size={16} />
           Delete Account
@@ -79,16 +79,16 @@ export function DeleteAccountDanger({ gymName }: Props) {
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
             onClick={close}
           />
-          <div className="relative bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 max-w-md w-full p-6 animate-slide-up">
+          <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-6 animate-slide-up">
             <div className="flex items-start gap-4 mb-5">
               <div className="shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
                 <AlertTriangle className="text-red-600" size={22} />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="text-lg font-semibold text-slate-100">
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                   Delete {gymName}?
                 </h2>
-                <p className="text-sm text-slate-400 mt-2 leading-relaxed">
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
                   This will permanently erase your gym, your login, and every
                   member, plan, subscription, and check-in. There is no undo.
                 </p>
@@ -99,7 +99,7 @@ export function DeleteAccountDanger({ gymName }: Props) {
               <div>
                 <label
                   htmlFor="del-password"
-                  className="block text-sm font-medium text-slate-300 mb-1.5"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
                 >
                   Confirm with your password
                 </label>
@@ -108,7 +108,7 @@ export function DeleteAccountDanger({ gymName }: Props) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
-                  className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition"
+                  className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition"
                   required
                 />
               </div>
@@ -116,10 +116,10 @@ export function DeleteAccountDanger({ gymName }: Props) {
               <div>
                 <label
                   htmlFor="del-name"
-                  className="block text-sm font-medium text-slate-300 mb-1.5"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
                 >
                   Type{" "}
-                  <code className="px-1.5 py-0.5 rounded bg-slate-800 text-red-400 font-semibold">
+                  <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-red-600 dark:text-red-400 font-semibold">
                     {gymName}
                   </code>{" "}
                   to confirm
@@ -130,7 +130,7 @@ export function DeleteAccountDanger({ gymName }: Props) {
                   value={confirmName}
                   onChange={(e) => setConfirmName(e.target.value)}
                   placeholder={gymName}
-                  className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition"
+                  className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition"
                 />
               </div>
 
@@ -138,7 +138,7 @@ export function DeleteAccountDanger({ gymName }: Props) {
                 <button
                   type="button"
                   onClick={close}
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 transition"
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
                 >
                   Cancel
                 </button>

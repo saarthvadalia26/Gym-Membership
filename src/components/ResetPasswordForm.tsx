@@ -52,7 +52,7 @@ export function ResetPasswordForm({ token }: Props) {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
         >
           New Password
         </label>
@@ -63,7 +63,7 @@ export function ResetPasswordForm({ token }: Props) {
           minLength={6}
           autoComplete="new-password"
           placeholder="At least 6 characters"
-          className="w-full pl-9 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
+          className="w-full pl-9 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           leftIcon={
             <Lock
               size={15}
@@ -76,7 +76,7 @@ export function ResetPasswordForm({ token }: Props) {
       <div>
         <label
           htmlFor="confirm"
-          className="block text-sm font-medium text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
         >
           Confirm Password
         </label>
@@ -87,7 +87,7 @@ export function ResetPasswordForm({ token }: Props) {
           minLength={6}
           autoComplete="new-password"
           placeholder="Repeat password"
-          className="w-full pl-9 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
+          className="w-full pl-9 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           leftIcon={
             <Lock
               size={15}

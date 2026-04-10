@@ -14,25 +14,25 @@ export function StatsCards({ stats }: { stats: Stats }) {
       label: "Total Members",
       value: stats.totalMembers.toString(),
       icon: Users,
-      tint: "bg-brand-950/40 text-brand-400",
+      tint: "bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400",
     },
     {
       label: "Monthly Recurring Revenue",
       value: formatINRCompact(stats.mrrPaise),
       icon: TrendingUp,
-      tint: "bg-emerald-950/60 text-emerald-400",
+      tint: "bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
     },
     {
       label: "Expiring This Week",
       value: stats.expiringThisWeek.toString(),
       icon: Clock,
-      tint: "bg-amber-950/60 text-amber-400",
+      tint: "bg-amber-950/60 text-amber-600 dark:text-amber-400",
     },
     {
       label: "Expected Next 30 Days",
       value: formatINRCompact(stats.expectedNext30DaysPaise),
       icon: CalendarClock,
-      tint: "bg-cyan-950/60 text-cyan-400",
+      tint: "bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400",
     },
   ];
 
@@ -41,17 +41,17 @@ export function StatsCards({ stats }: { stats: Stats }) {
       {cards.map(({ label, value, icon: Icon, tint }) => (
         <div
           key={label}
-          className="group bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-soft hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200"
+          className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200"
         >
           <div className="flex items-center justify-between mb-3">
-            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               {label}
             </div>
             <div className={`p-2 rounded-lg ${tint} group-hover:scale-110 transition-transform`}>
               <Icon size={16} />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-100 tracking-tight">
+          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             {value}
           </div>
         </div>

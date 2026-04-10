@@ -10,14 +10,11 @@ import {
   Tag,
   ScanLine,
   Settings,
-  LogOut,
   Menu,
   X,
   Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { signOutAction } from "@/app/actions";
-// ThemeToggle removed — forced dark athletic theme
 
 const allLinks = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard, ownerOnly: false },
@@ -57,7 +54,7 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800">
+      <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
           <Image
             src="/logo.svg"
@@ -67,13 +64,13 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
             className="rounded-lg"
             priority
           />
-          <div className="font-bold text-slate-100 truncate">
+          <div className="font-bold text-slate-900 dark:text-slate-100 truncate">
             {gymName}
           </div>
         </div>
         <button
           onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-lg text-slate-300 hover:bg-slate-800 transition"
+          className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
           aria-label="Open menu"
         >
           <Menu size={22} />
@@ -90,11 +87,11 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
 
       <aside
         className={cn(
-          "fixed lg:sticky top-0 left-0 z-40 w-64 shrink-0 h-screen bg-slate-900 border-r border-slate-800 flex flex-col transition-transform duration-300 lg:translate-x-0",
+          "fixed lg:sticky top-0 left-0 z-40 w-64 shrink-0 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-transform duration-300 lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
-        <div className="px-6 py-6 border-b border-slate-800 flex items-center justify-between">
+        <div className="px-6 py-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
             <Image
               src="/logo.svg"
@@ -105,17 +102,17 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
               priority
             />
             <div className="min-w-0">
-              <div className="font-bold text-slate-100 truncate leading-tight">
+              <div className="font-bold text-slate-900 dark:text-slate-100 truncate leading-tight">
                 {gymName}
               </div>
-              <div className="text-xs text-slate-400 mt-0.5">
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Membership
               </div>
             </div>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden p-1.5 rounded-lg text-slate-500 hover:bg-slate-800 transition shrink-0"
+            className="lg:hidden p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0"
             aria-label="Close menu"
           >
             <X size={18} />
@@ -125,13 +122,13 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
         <div className="px-3 pt-3">
           <button
             onClick={openCommandPalette}
-            className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm bg-slate-800/60 hover:bg-slate-200 text-slate-400 transition"
+            className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-200 dark:hover:bg-slate-700 dark:bg-slate-700 text-slate-500 dark:text-slate-400 transition"
           >
             <span className="flex items-center gap-2">
               <Search size={14} />
               Quick search…
             </span>
-            <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono border border-slate-700 bg-slate-900 text-slate-500">
+            <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500">
               ⌘K
             </kbd>
           </button>
@@ -149,7 +146,7 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all",
                   active
                     ? "bg-brand-400 text-slate-950 shadow-glow hover:bg-brand-300 font-bold"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
                 )}
               >
                 <Icon size={18} />
@@ -159,28 +156,19 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
           })}
         </nav>
 
-        <div className="px-3 py-3 border-t border-slate-800 space-y-2">
+        <div className="px-3 py-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
           <Link
             href="/settings"
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition",
               pathname.startsWith("/settings")
-                ? "bg-brand-950/60 text-brand-400"
-                : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                ? "bg-brand-50 dark:bg-brand-950/60 dark:bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400"
+                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-900 dark:hover:text-white"
             )}
           >
             <Settings size={18} />
             Settings
           </Link>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition"
-            >
-              <LogOut size={18} />
-              Sign out
-            </button>
-          </form>
         </div>
       </aside>
     </>

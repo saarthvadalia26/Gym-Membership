@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 :root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+.dark {
   --background: #0f172a;
   --foreground: #e2e8f0;
+  color-scheme: dark;
 }
 
 html {
   background: var(--background);
-  color-scheme: dark;
 }
 
 body {
@@ -20,8 +25,8 @@ body {
   transition: background-color 200ms ease, color 200ms ease;
 }
 
-/* Subtle mesh gradient depth layer */
-body::before {
+/* Subtle mesh gradient depth layer (dark mode only) */
+.dark body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -51,12 +56,20 @@ h1, h2, h3 {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #cbd5e1;
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+  background-clip: content-box;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  background-clip: content-box;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #475569;
   background-clip: content-box;
 }
@@ -104,6 +117,10 @@ textarea:focus {
   transition: all 120ms ease;
 }
 [cmdk-item][data-selected="true"] {
+  background: #eef2ff;
+  color: #65a30d;
+}
+.dark [cmdk-item][data-selected="true"] {
   background: rgba(190, 242, 100, 0.1);
   color: #bef264;
 }
