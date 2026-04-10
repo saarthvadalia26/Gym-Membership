@@ -114,13 +114,13 @@ export function CheckInScreen() {
       <div
         className={`rounded-3xl border-2 p-12 text-center shadow-soft animate-pop ${
           feedback.allowed
-            ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-400 dark:border-emerald-700"
-            : "bg-red-50 dark:bg-red-950/40 border-red-400 dark:border-red-700"
+            ? "bg-emerald-950/40 border-emerald-400"
+            : "bg-red-950/40 border-red-400"
         }`}
       >
         <div
           className={`inline-flex items-center justify-center w-32 h-32 rounded-full shadow-lg ${
-            feedback.allowed ? "bg-emerald-500" : "bg-red-500"
+            feedback.allowed ? "bg-emerald-950/400" : "bg-red-950/400"
           }`}
         >
           {feedback.allowed ? (
@@ -132,17 +132,17 @@ export function CheckInScreen() {
         <div
           className={`text-5xl font-bold mt-6 ${
             feedback.allowed
-              ? "text-emerald-700 dark:text-emerald-400"
-              : "text-red-700 dark:text-red-400"
+              ? "text-emerald-700"
+              : "text-red-700"
           }`}
         >
           {feedback.allowed ? "ALLOWED" : "DENIED"}
         </div>
-        <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-4">
+        <div className="text-2xl font-semibold text-slate-100 mt-4">
           {feedback.member.fullName}
         </div>
         {feedback.subscription && expiry && (
-          <div className="mt-3 text-slate-600 dark:text-slate-400">
+          <div className="mt-3 text-slate-400">
             <div className="text-base">
               {feedback.subscription.planName} • valid till{" "}
               {format(expiry, "dd MMM yyyy")}
@@ -151,14 +151,14 @@ export function CheckInScreen() {
               <div className="text-sm mt-1">{days} days remaining</div>
             )}
             {days !== null && days < 0 && (
-              <div className="text-sm mt-1 text-red-600 dark:text-red-400 font-semibold">
+              <div className="text-sm mt-1 text-red-400 font-semibold">
                 Expired {Math.abs(days)} days ago — please renew
               </div>
             )}
           </div>
         )}
         {!feedback.subscription && (
-          <div className="mt-3 text-red-600 dark:text-red-400 font-medium">
+          <div className="mt-3 text-red-400 font-medium">
             No active subscription
           </div>
         )}
@@ -178,13 +178,13 @@ export function CheckInScreen() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search member by name or phone…"
-            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-500/30 focus:border-brand-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm placeholder:text-slate-400 dark:placeholder:text-slate-500"
+            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-400/50/30 focus:border-brand-400 bg-slate-900 text-slate-100 shadow-sm placeholder:text-slate-400"
           />
         </div>
         <button
           type="button"
           onClick={() => setScannerOpen(true)}
-          className="shrink-0 inline-flex items-center justify-center w-[72px] h-[72px] sm:w-[76px] sm:h-[76px] rounded-2xl bg-brand-600 hover:bg-brand-700 hover:shadow-glow text-white shadow-sm transition border-2 border-brand-600 hover:border-brand-700"
+          className="shrink-0 inline-flex items-center justify-center w-[72px] h-[72px] sm:w-[76px] sm:h-[76px] rounded-2xl bg-brand-400 hover:bg-brand-300 hover:shadow-glow text-slate-950 shadow-sm transition border-2 border-brand-600 hover:border-brand-700"
           title="Scan member QR code"
           aria-label="Scan QR code"
         >
@@ -200,13 +200,13 @@ export function CheckInScreen() {
 
       <div className="max-w-2xl mx-auto mt-6">
         {loading && (
-          <div className="text-center text-slate-400 dark:text-slate-500 py-4">
+          <div className="text-center text-slate-500 py-4">
             Searching…
           </div>
         )}
 
         {!loading && query && results.length === 0 && (
-          <div className="text-center text-slate-400 dark:text-slate-500 py-8">
+          <div className="text-center text-slate-500 py-8">
             No members found matching &ldquo;{query}&rdquo;
           </div>
         )}
@@ -219,13 +219,13 @@ export function CheckInScreen() {
               <button
                 key={m.id}
                 onClick={() => handleCheckIn(m.id)}
-                className="w-full flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition text-left"
+                className="w-full flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-brand-400 hover:shadow-md transition text-left"
               >
                 <div>
-                  <div className="font-semibold text-slate-900 dark:text-slate-100 text-lg">
+                  <div className="font-semibold text-slate-100 text-lg">
                     {m.fullName}
                   </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                  <div className="text-sm text-slate-400 mt-0.5">
                     {m.phoneNumber}
                     {sub && ` • ${sub.plan.name}`}
                   </div>
@@ -233,10 +233,10 @@ export function CheckInScreen() {
                 <div
                   className={`text-sm font-bold px-3 py-1.5 rounded-full ${
                     status === "GREEN"
-                      ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400"
+                      ? "bg-emerald-950/60 text-emerald-700"
                       : status === "YELLOW"
-                      ? "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400"
-                      : "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400"
+                      ? "bg-amber-950/60 text-amber-800"
+                      : "bg-red-100 text-red-700"
                   }`}
                 >
                   {status === "GREEN" ? "ACTIVE" : status === "YELLOW" ? "EXPIRING" : "EXPIRED"}

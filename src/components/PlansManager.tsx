@@ -106,9 +106,9 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
 
   return (
     <div>
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft overflow-hidden">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-soft overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">
+          <thead className="bg-slate-800/50 text-slate-400 text-xs uppercase tracking-wider">
             <tr>
               <th className="text-left px-5 py-3.5 font-semibold">Plan Name</th>
               <th className="text-right px-5 py-3.5 font-semibold">Price</th>
@@ -116,10 +116,10 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
               <th className="text-right px-5 py-3.5 font-semibold w-32">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <tbody className="divide-y divide-slate-800">
             {plans.length === 0 && !creating && (
               <tr>
-                <td colSpan={4} className="px-5 py-12 text-center text-slate-400 dark:text-slate-500">
+                <td colSpan={4} className="px-5 py-12 text-center text-slate-500">
                   No plans yet. Click <span className="font-semibold">Add Plan</span> below.
                 </td>
               </tr>
@@ -127,7 +127,7 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
 
             {plans.map((p) =>
               editingId === p.id ? (
-                <tr key={p.id} className="bg-slate-50 dark:bg-slate-800/40">
+                <tr key={p.id} className="bg-slate-800/40">
                   <td colSpan={4} className="px-5 py-3">
                     <form
                       onSubmit={(e) => handleUpdate(p.id, e)}
@@ -137,14 +137,14 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                         name="name"
                         defaultValue={p.name}
                         placeholder="Name"
-                        className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm flex-1 min-w-32 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        className="px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm flex-1 min-w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                         required
                       />
                       <input
                         name="price"
                         defaultValue={(p.pricePaise / 100).toString()}
                         placeholder="Price (₹)"
-                        className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-32 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        className="px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                         required
                       />
                       <input
@@ -152,13 +152,13 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                         type="number"
                         defaultValue={p.durationDays}
                         placeholder="Days"
-                        className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-24 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        className="px-3 py-1.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg text-sm w-24 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                         min={1}
                         required
                       />
                       <button
                         type="submit"
-                        className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded"
+                        className="p-1.5 text-emerald-600 hover:bg-emerald-950/40 rounded"
                         title="Save"
                       >
                         <Check size={16} />
@@ -166,7 +166,7 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                       <button
                         type="button"
                         onClick={() => setEditingId(null)}
-                        className="p-1.5 text-slate-500 hover:bg-slate-100 rounded"
+                        className="p-1.5 text-slate-500 hover:bg-slate-800 rounded"
                         title="Cancel"
                       >
                         <X size={16} />
@@ -175,26 +175,26 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                   </td>
                 </tr>
               ) : (
-                <tr key={p.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-                  <td className="px-5 py-3.5 font-medium text-slate-900 dark:text-slate-100">{p.name}</td>
-                  <td className="px-5 py-3.5 text-right font-semibold text-slate-900 dark:text-slate-100">
+                <tr key={p.id} className="hover:bg-slate-800/50 transition">
+                  <td className="px-5 py-3.5 font-medium text-slate-100">{p.name}</td>
+                  <td className="px-5 py-3.5 text-right font-semibold text-slate-100">
                     {formatINRCompact(p.pricePaise)}
                   </td>
-                  <td className="px-5 py-3.5 text-right text-slate-600 dark:text-slate-300">
+                  <td className="px-5 py-3.5 text-right text-slate-300">
                     {p.durationDays} days
                   </td>
                   <td className="px-5 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => setEditingId(p.id)}
-                        className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition"
+                        className="p-1.5 text-slate-400 hover:bg-slate-800 rounded transition"
                         title="Edit"
                       >
                         <Pencil size={14} />
                       </button>
                       <button
                         onClick={() => setDeleteTarget(p)}
-                        className="p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 rounded transition"
+                        className="p-1.5 text-red-400 hover:bg-red-950/40 rounded transition"
                         title="Delete"
                       >
                         <Trash2 size={14} />
@@ -206,7 +206,7 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
             )}
 
             {creating && (
-              <tr className="bg-slate-50 dark:bg-slate-800/40">
+              <tr className="bg-slate-800/40">
                 <td colSpan={4} className="px-5 py-3">
                   <form
                     onSubmit={handleCreate}
@@ -215,26 +215,26 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                     <input
                       name="name"
                       placeholder="e.g. Half-Yearly"
-                      className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm flex-1 min-w-32 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      className="px-3 py-1.5 border border-slate-700 rounded-lg text-sm flex-1 min-w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                       required
                     />
                     <input
                       name="price"
                       placeholder="Price (₹)"
-                      className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm w-32 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      className="px-3 py-1.5 border border-slate-700 rounded-lg text-sm w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                       required
                     />
                     <input
                       name="duration"
                       type="number"
                       placeholder="Days"
-                      className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm w-24 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      className="px-3 py-1.5 border border-slate-700 rounded-lg text-sm w-24 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                       min={1}
                       required
                     />
                     <button
                       type="submit"
-                      className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded"
+                      className="p-1.5 text-emerald-600 hover:bg-emerald-950/40 rounded"
                       title="Save"
                     >
                       <Check size={16} />
@@ -242,7 +242,7 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                     <button
                       type="button"
                       onClick={() => setCreating(false)}
-                      className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"
+                      className="p-1.5 text-slate-400 hover:bg-slate-800 rounded"
                       title="Cancel"
                     >
                       <X size={16} />
@@ -258,7 +258,7 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
       {!creating && (
         <button
           onClick={() => setCreating(true)}
-          className="mt-4 inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 hover:shadow-glow text-white font-medium px-4 py-2.5 rounded-lg transition shadow-sm"
+          className="mt-4 inline-flex items-center gap-2 bg-brand-400 hover:bg-brand-300 hover:shadow-glow text-slate-950 font-medium px-4 py-2.5 rounded-lg transition shadow-sm"
         >
           <Plus size={16} /> Add Plan
         </button>

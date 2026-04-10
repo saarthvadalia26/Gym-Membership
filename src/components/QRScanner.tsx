@@ -110,17 +110,17 @@ export function QRScanner({ open, onScan, onClose }: Props) {
         className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-5 animate-slide-up">
+      <div className="relative bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 max-w-md w-full p-5 animate-slide-up">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Camera size={18} className="text-brand-500" />
-            <h2 className="font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="font-semibold text-slate-100">
               Scan member QR
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition"
+            className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded transition"
             aria-label="Close"
           >
             <X size={18} />
@@ -142,7 +142,7 @@ export function QRScanner({ open, onScan, onClose }: Props) {
           )}
         </div>
 
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 text-center">
+        <p className="text-xs text-slate-400 mt-3 text-center">
           Hold the member&apos;s QR inside the frame. They&apos;ll be checked in automatically.
         </p>
       </div>

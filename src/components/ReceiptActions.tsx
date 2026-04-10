@@ -13,18 +13,18 @@ export function ReceiptActions({ subscriptionId, whatsappUrl }: Props) {
   if (dismissed) return null;
 
   return (
-    <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5 mb-6 relative">
+    <div className="bg-emerald-950/40 border border-emerald-800 rounded-xl p-5 mb-6 relative">
       <button
         onClick={() => setDismissed(true)}
-        className="absolute top-3 right-3 text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-200"
+        className="absolute top-3 right-3 text-emerald-400 hover:text-emerald-900"
         aria-label="Dismiss"
       >
         <X size={16} />
       </button>
-      <div className="font-semibold text-emerald-900 dark:text-emerald-200 mb-1">
+      <div className="font-semibold text-emerald-200 mb-1">
         ✓ Subscription created. Send the receipt:
       </div>
-      <div className="text-sm text-emerald-700 dark:text-emerald-400 mb-4">
+      <div className="text-sm text-emerald-400 mb-4">
         Download a PDF copy or share the receipt with the member on WhatsApp.
       </div>
       <div className="flex gap-3 flex-wrap">
@@ -32,7 +32,7 @@ export function ReceiptActions({ subscriptionId, whatsappUrl }: Props) {
           href={`/api/receipt/${subscriptionId}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 font-medium px-4 py-2 rounded-lg transition"
+          className="inline-flex items-center gap-2 bg-slate-900 border border-emerald-700 hover:bg-emerald-950/60 text-emerald-300 font-medium px-4 py-2 rounded-lg transition"
         >
           <Download size={16} />
           Download PDF

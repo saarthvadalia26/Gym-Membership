@@ -81,21 +81,21 @@ export function MemberPortalShare({
 
   if (!token) {
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-soft p-6">
         <div className="flex items-center gap-2 mb-2">
           <LinkIcon size={14} className="text-brand-500" />
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Member Portal
           </h2>
         </div>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+        <p className="text-sm text-slate-400 mb-4 leading-relaxed">
           Generate a private link this member can use to view their plan,
           expiry date, and payment receipts. No login needed for them.
         </p>
         <button
           onClick={generateOrRotate}
           disabled={busy}
-          className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm"
+          className="inline-flex items-center gap-2 bg-brand-400 hover:bg-brand-300 disabled:opacity-60 text-slate-950 text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm"
         >
           <LinkIcon size={14} />
           {busy ? "Generating…" : "Generate Portal Link"}
@@ -105,18 +105,18 @@ export function MemberPortalShare({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-soft p-6">
       <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
         <div className="flex items-center gap-2">
           <LinkIcon size={14} className="text-brand-500" />
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Member Portal & QR
           </h2>
         </div>
         <button
           onClick={generateOrRotate}
           disabled={busy}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition"
+          className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 transition"
           title="Rotate the link (old one stops working)"
         >
           <RefreshCw size={11} className={busy ? "animate-spin" : ""} />
@@ -125,21 +125,21 @@ export function MemberPortalShare({
       </div>
 
       {qrCode && (
-        <div className="flex flex-col items-center bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 rounded-xl p-4 mb-3">
-          <div className="bg-white p-2 rounded-lg">{qrCode}</div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 text-center">
+        <div className="flex flex-col items-center bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-3">
+          <div className="bg-slate-900 p-2 rounded-lg">{qrCode}</div>
+          <p className="text-xs text-slate-400 mt-2 text-center">
             Member shows this QR at the door for instant check-in
           </p>
         </div>
       )}
 
-      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 mb-3 overflow-hidden">
-        <code className="text-xs text-slate-700 dark:text-slate-300 truncate flex-1 min-w-0">
+      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800/60 border border-slate-700 mb-3 overflow-hidden">
+        <code className="text-xs text-slate-300 truncate flex-1 min-w-0">
           {portalUrl}
         </code>
         <button
           onClick={copyLink}
-          className="p-1.5 text-slate-500 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-white dark:hover:bg-slate-900 rounded transition shrink-0"
+          className="p-1.5 text-slate-500 hover:text-brand-400 hover:bg-slate-900 rounded transition shrink-0"
           title="Copy link"
         >
           <Copy size={14} />
@@ -160,7 +160,7 @@ export function MemberPortalShare({
           href={portalUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg transition"
+          className="inline-flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg transition"
         >
           <ExternalLink size={13} />
           Preview

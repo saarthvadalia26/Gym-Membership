@@ -10,42 +10,50 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-oswald)", "Impact", "sans-serif"],
       },
       colors: {
         brand: {
-          50: "#eef2ff",
-          100: "#e0e7ff",
-          200: "#c7d2fe",
-          300: "#a5b4fc",
-          400: "#818cf8",
-          500: "#6366f1",
-          600: "#4f46e5",
-          700: "#4338ca",
-          800: "#3730a3",
-          900: "#312e81",
+          50: "#f7fee7",
+          100: "#ecfccb",
+          200: "#d9f99d",
+          300: "#d4f97f",
+          400: "#bef264", // Electric Lime — hero accent
+          500: "#a3e635",
+          600: "#84cc16",
+          700: "#65a30d",
+          800: "#4d7c0f",
+          900: "#365314",
+          950: "#1a2e05",
         },
         accent: {
-          500: "#8b5cf6",
-          600: "#7c3aed",
+          500: "#22d3ee",
+          600: "#06b6d4",
+        },
+        surface: {
+          DEFAULT: "#0f172a",
+          raised: "#1e293b",
+          overlay: "#334155",
         },
       },
       backgroundImage: {
-        "gradient-brand": "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
+        "gradient-brand": "linear-gradient(135deg, #65a30d 0%, #bef264 100%)",
         "gradient-brand-soft":
-          "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
+          "linear-gradient(135deg, #1a2e05 0%, #0f172a 100%)",
         "gradient-mesh":
-          "radial-gradient(at 20% 0%, #c7d2fe 0px, transparent 50%), radial-gradient(at 80% 100%, #ddd6fe 0px, transparent 50%)",
+          "radial-gradient(ellipse 80% 60% at 20% -10%, rgba(190,242,100,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 110%, rgba(34,211,238,0.08) 0%, transparent 60%)",
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.06)",
-        glow: "0 8px 32px -4px rgba(79, 70, 229, 0.25)",
-        "glow-dark": "0 8px 32px -4px rgba(99, 102, 241, 0.4)",
+        soft: "0 1px 2px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15)",
+        glow: "0 8px 32px -4px rgba(190, 242, 100, 0.3)",
+        "glow-dark": "0 8px 32px -4px rgba(190, 242, 100, 0.4)",
+        "glow-input": "0 0 0 3px rgba(190, 242, 100, 0.25)",
       },
       animation: {
         "fade-in": "fadeIn 200ms ease-out",
         "slide-up": "slideUp 250ms ease-out",
-        "pop": "pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-        "shimmer": "shimmer 2s linear infinite",
+        pop: "pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+        shimmer: "shimmer 2s linear infinite",
       },
       keyframes: {
         fadeIn: {

@@ -47,10 +47,10 @@ export function CheckinSparkline({ checkIns, days = 14 }: Props) {
               <div
                 className={`w-full rounded ${
                   b.count === 0
-                    ? "bg-slate-200 dark:bg-slate-700"
+                    ? "bg-slate-200"
                     : isToday
-                    ? "bg-brand-500"
-                    : "bg-brand-400 dark:bg-brand-500"
+                    ? "bg-brand-950/400"
+                    : "bg-brand-400"
                 }`}
                 style={{ height: `${h}px` }}
               />
@@ -59,11 +59,11 @@ export function CheckinSparkline({ checkIns, days = 14 }: Props) {
         })}
       </div>
       <div className="flex items-center justify-between mt-3 text-xs">
-        <span className="text-slate-500 dark:text-slate-400">
-          <strong className="text-slate-900 dark:text-slate-100">{totalVisits}</strong> visits in past {days} days
+        <span className="text-slate-400">
+          <strong className="text-slate-100">{totalVisits}</strong> visits in past {days} days
         </span>
         {lastVisit && (
-          <span className="text-slate-500 dark:text-slate-400">
+          <span className="text-slate-400">
             Last: {format(lastVisit, "dd MMM")}
           </span>
         )}

@@ -24,10 +24,10 @@ export function ReferralCodeCard({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-soft p-6">
       <div className="flex items-center gap-2 mb-4">
         <Gift size={14} className="text-brand-500" />
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
           Referrals
         </h2>
       </div>
@@ -35,36 +35,36 @@ export function ReferralCodeCard({
       {referralCode ? (
         <button
           onClick={copyCode}
-          className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-gradient-to-br from-brand-50 to-violet-50 dark:from-brand-950/40 dark:to-violet-950/40 border border-brand-200 dark:border-brand-800 hover:shadow-glow transition group"
+          className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-gradient-to-br from-brand-950/40 to-slate-800/40 border border-brand-800 hover:shadow-glow transition group"
         >
           <div className="text-left min-w-0">
-            <div className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">
+            <div className="text-xs text-slate-400 mb-0.5">
               Referral code
             </div>
-            <div className="font-mono font-bold text-lg text-brand-700 dark:text-brand-300 tracking-wider truncate">
+            <div className="font-mono font-bold text-lg text-brand-300 tracking-wider truncate">
               {referralCode}
             </div>
           </div>
           <Copy
             size={16}
-            className="text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition shrink-0"
+            className="text-slate-400 group-hover:text-brand-400 transition shrink-0"
           />
         </button>
       ) : (
-        <div className="px-3.5 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 text-sm text-slate-500 dark:text-slate-400">
+        <div className="px-3.5 py-3 rounded-xl bg-slate-800/40 text-sm text-slate-400">
           No referral code yet — will be generated automatically.
         </div>
       )}
 
       {creditsAvailable > 0 && (
-        <div className="mt-4 px-3.5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
-          <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
+        <div className="mt-4 px-3.5 py-3 rounded-xl bg-emerald-950/40 border border-emerald-200">
+          <div className="flex items-center gap-2 text-emerald-800">
             <Gift size={14} />
             <span className="text-xs font-semibold uppercase tracking-wider">
               Reward unlocked
             </span>
           </div>
-          <div className="text-sm text-emerald-900 dark:text-emerald-200 mt-1.5 leading-relaxed">
+          <div className="text-sm text-emerald-200 mt-1.5 leading-relaxed">
             <strong>10% off</strong> on next subscription
             {creditsAvailable > 1 ? ` (${creditsAvailable} credits)` : ""} —
             applied automatically at checkout.
@@ -74,23 +74,23 @@ export function ReferralCodeCard({
 
       <dl className="space-y-3 text-sm mt-4">
         <div className="flex items-center justify-between">
-          <dt className="text-slate-500 dark:text-slate-400 inline-flex items-center gap-1.5">
+          <dt className="text-slate-400 inline-flex items-center gap-1.5">
             <Users size={13} />
             People referred
           </dt>
-          <dd className="font-bold text-slate-900 dark:text-slate-100">
+          <dd className="font-bold text-slate-100">
             {referralCount}
           </dd>
         </div>
         {referredBy && (
           <div className="flex items-center justify-between gap-2">
-            <dt className="text-slate-500 dark:text-slate-400 shrink-0">
+            <dt className="text-slate-400 shrink-0">
               Referred by
             </dt>
             <dd className="min-w-0">
               <Link
                 href={`/members/${referredBy.id}`}
-                className="font-semibold text-brand-600 dark:text-brand-400 hover:underline truncate block"
+                className="font-semibold text-brand-400 hover:underline truncate block"
               >
                 {referredBy.fullName}
               </Link>

@@ -67,23 +67,23 @@ export async function sendPasswordResetEmail({
   const html = `
 <!DOCTYPE html>
 <html>
-  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; padding: 32px; color: #0f172a;">
-    <div style="max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(15,23,42,0.06);">
-      <div style="display: inline-block; width: 56px; height: 56px; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 14px; margin-bottom: 20px;"></div>
-      <h1 style="font-size: 22px; font-weight: 700; margin: 0 0 12px;">Reset your password</h1>
-      <p style="font-size: 14px; color: #475569; line-height: 1.6; margin: 0 0 20px;">
-        You (or someone using your email) requested a password reset${gymName ? ` for <strong>${gymName}</strong>` : ""}.
+  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; padding: 32px; color: #e2e8f0;">
+    <div style="max-width: 480px; margin: 0 auto; background: #1e293b; border-radius: 16px; padding: 32px; border: 1px solid #334155;">
+      <div style="display: inline-block; width: 56px; height: 56px; background: linear-gradient(135deg, #65a30d, #bef264); border-radius: 14px; margin-bottom: 20px;"></div>
+      <h1 style="font-size: 22px; font-weight: 700; margin: 0 0 12px; color: #f1f5f9;">Reset your password</h1>
+      <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin: 0 0 20px;">
+        You (or someone using your email) requested a password reset${gymName ? ` for <strong style="color:#bef264">${gymName}</strong>` : ""}.
         Click the button below to set a new password. This link expires in 1 hour.
       </p>
-      <a href="${resetUrl}" style="display: inline-block; background: #4f46e5; color: #ffffff; text-decoration: none; font-weight: 600; padding: 12px 24px; border-radius: 10px; font-size: 14px;">
+      <a href="${resetUrl}" style="display: inline-block; background: #bef264; color: #0f172a; text-decoration: none; font-weight: 600; padding: 12px 24px; border-radius: 10px; font-size: 14px;">
         Reset Password
       </a>
-      <p style="font-size: 12px; color: #94a3b8; line-height: 1.6; margin: 24px 0 0;">
+      <p style="font-size: 12px; color: #64748b; line-height: 1.6; margin: 24px 0 0;">
         If you didn't request this, you can safely ignore this email — your password will stay the same.
       </p>
-      <p style="font-size: 12px; color: #94a3b8; line-height: 1.6; margin: 12px 0 0; word-break: break-all;">
+      <p style="font-size: 12px; color: #64748b; line-height: 1.6; margin: 12px 0 0; word-break: break-all;">
         Or copy this link into your browser:<br/>
-        <a href="${resetUrl}" style="color: #4f46e5;">${resetUrl}</a>
+        <a href="${resetUrl}" style="color: #bef264;">${resetUrl}</a>
       </p>
     </div>
   </body>

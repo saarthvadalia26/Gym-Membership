@@ -52,7 +52,7 @@ export function ResetPasswordForm({ token }: Props) {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-300 mb-1.5"
         >
           New Password
         </label>
@@ -63,11 +63,11 @@ export function ResetPasswordForm({ token }: Props) {
           minLength={6}
           autoComplete="new-password"
           placeholder="At least 6 characters"
-          className="w-full pl-9 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          className="w-full pl-9 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           leftIcon={
             <Lock
               size={15}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
             />
           }
         />
@@ -76,7 +76,7 @@ export function ResetPasswordForm({ token }: Props) {
       <div>
         <label
           htmlFor="confirm"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-300 mb-1.5"
         >
           Confirm Password
         </label>
@@ -87,11 +87,11 @@ export function ResetPasswordForm({ token }: Props) {
           minLength={6}
           autoComplete="new-password"
           placeholder="Repeat password"
-          className="w-full pl-9 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm"
+          className="w-full pl-9 py-2.5 bg-slate-800 border border-slate-700 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition placeholder:text-slate-400 text-sm"
           leftIcon={
             <Lock
               size={15}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
             />
           }
         />
@@ -100,7 +100,7 @@ export function ResetPasswordForm({ token }: Props) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 hover:shadow-glow disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-all shadow-sm mt-2"
+        className="w-full inline-flex items-center justify-center gap-2 bg-brand-400 hover:bg-brand-300 hover:shadow-glow disabled:opacity-60 text-slate-950 font-semibold py-3 rounded-xl transition-all shadow-sm mt-2"
       >
         {submitting ? "Saving…" : "Update Password"}
         {!submitting && <ArrowRight size={16} />}

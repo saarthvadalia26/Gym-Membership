@@ -55,14 +55,14 @@ export function GymProfileForm({ initial }: Props) {
       <div>
         <label
           htmlFor="gym-name"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-300 mb-1.5"
         >
           Gym Name <span className="text-red-500">*</span>
         </label>
         <div className="relative">
           <Building2
             size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
           />
           <input
             id="gym-name"
@@ -70,10 +70,10 @@ export function GymProfileForm({ initial }: Props) {
             type="text"
             defaultValue={initial.name}
             required
-            className="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+            className="w-full pl-9 pr-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
           />
         </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+        <p className="text-xs text-slate-400 mt-1.5">
           Shown in the sidebar and on PDF receipts.
         </p>
       </div>
@@ -81,14 +81,14 @@ export function GymProfileForm({ initial }: Props) {
       <div>
         <label
           htmlFor="gym-address"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-300 mb-1.5"
         >
           Address
         </label>
         <div className="relative">
           <MapPin
             size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
           />
           <input
             id="gym-address"
@@ -96,7 +96,7 @@ export function GymProfileForm({ initial }: Props) {
             type="text"
             defaultValue={initial.address}
             placeholder="123 Main Street, Your City"
-            className="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+            className="w-full pl-9 pr-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
           />
         </div>
       </div>
@@ -104,14 +104,14 @@ export function GymProfileForm({ initial }: Props) {
       <div>
         <label
           htmlFor="gym-phone"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+          className="block text-sm font-medium text-slate-300 mb-1.5"
         >
           Phone
         </label>
         <div className="relative">
           <Phone
             size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
           />
           <input
             id="gym-phone"
@@ -119,7 +119,7 @@ export function GymProfileForm({ initial }: Props) {
             type="tel"
             defaultValue={initial.phone}
             placeholder="+91 99999 99999"
-            className="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+            className="w-full pl-9 pr-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
           />
         </div>
       </div>
@@ -128,7 +128,7 @@ export function GymProfileForm({ initial }: Props) {
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 hover:shadow-glow disabled:opacity-60 text-white font-medium px-5 py-2.5 rounded-lg transition shadow-sm"
+          className="inline-flex items-center gap-2 bg-brand-400 hover:bg-brand-300 hover:shadow-glow disabled:opacity-60 text-slate-950 font-medium px-5 py-2.5 rounded-lg transition shadow-sm"
         >
           <Save size={16} />
           {submitting ? "Saving…" : "Save Profile"}

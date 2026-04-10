@@ -63,19 +63,19 @@ export function MemberForm({ initial, mode }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-lg">
       <div>
-        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-300 mb-1.5">
           Full Name
         </label>
         <input
           name="fullName"
           required
           defaultValue={initial?.fullName}
-          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+          className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-300 mb-1.5">
           Phone Number
         </label>
         <input
@@ -83,12 +83,12 @@ export function MemberForm({ initial, mode }: Props) {
           required
           placeholder="+91 99999 99999"
           defaultValue={initial?.phoneNumber}
-          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+          className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-300 mb-1.5">
           Date of Birth <span className="text-slate-400 font-normal">(optional)</span>
         </label>
         <input
@@ -99,35 +99,35 @@ export function MemberForm({ initial, mode }: Props) {
               ? new Date(initial.dateOfBirth).toISOString().slice(0, 10)
               : ""
           }
-          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+          className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
         />
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+        <p className="text-xs text-slate-400 mt-1.5">
           We&apos;ll surface their birthday on the dashboard so you can wish them.
         </p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+        <label className="block text-sm font-medium text-slate-300 mb-1.5">
           Emergency Contact <span className="text-slate-400 font-normal">(optional)</span>
         </label>
         <input
           name="emergencyContact"
           defaultValue={initial?.emergencyContact ?? ""}
-          className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+          className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition"
         />
       </div>
 
       {mode === "create" && (
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-sm font-medium text-slate-300 mb-1.5">
             Referred by code <span className="text-slate-400 font-normal">(optional)</span>
           </label>
           <input
             name="referredByCode"
             placeholder="e.g. IRON-7K9P"
-            className="w-full px-3.5 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition uppercase placeholder:normal-case"
+            className="w-full px-3.5 py-2.5 border border-slate-700 bg-slate-900 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400 transition uppercase placeholder:normal-case"
           />
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+          <p className="text-xs text-slate-400 mt-1.5">
             If another member referred them, paste the referrer&apos;s code here.
           </p>
         </div>
@@ -136,7 +136,7 @@ export function MemberForm({ initial, mode }: Props) {
       <button
         type="submit"
         disabled={submitting}
-        className="bg-brand-600 hover:bg-brand-700 hover:shadow-glow disabled:opacity-60 text-white font-medium px-5 py-2.5 rounded-lg transition shadow-sm"
+        className="bg-brand-400 hover:bg-brand-300 hover:shadow-glow disabled:opacity-60 text-slate-950 font-medium px-5 py-2.5 rounded-lg transition shadow-sm"
       >
         {submitting ? "Saving…" : mode === "create" ? "Create Member" : "Save Changes"}
       </button>

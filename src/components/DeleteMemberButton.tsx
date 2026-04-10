@@ -36,7 +36,7 @@ export function DeleteMemberButton({
       <button
         onClick={() => setOpen(true)}
         disabled={busy}
-        className="inline-flex items-center gap-1.5 text-sm text-red-600 hover:text-red-700 disabled:opacity-50"
+        className="inline-flex items-center gap-1.5 text-sm text-red-400 hover:text-red-400 disabled:opacity-50"
       >
         <Trash2 size={14} />
         {busy ? "Deleting…" : "Delete"}

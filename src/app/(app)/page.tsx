@@ -147,10 +147,10 @@ export default async function DashboardPage() {
   return (
     <div className="animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+        <h1 className="text-3xl font-bold text-slate-100 tracking-tight">
           Dashboard
         </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
+        <p className="text-sm text-slate-400 mt-1.5">
           {format(today, "EEEE, dd MMMM yyyy")}
         </p>
       </div>
@@ -217,53 +217,53 @@ function Column({
 }) {
   const headerStyle =
     status === "RED"
-      ? "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900"
+      ? "bg-red-950/30 border-red-900"
       : status === "YELLOW"
-      ? "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900"
-      : "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900";
+      ? "bg-amber-950/30 border-amber-900"
+      : "bg-emerald-950/30 border-emerald-900";
 
   const accentBar =
     status === "RED"
-      ? "bg-red-500"
+      ? "bg-red-950/400"
       : status === "YELLOW"
-      ? "bg-amber-500"
-      : "bg-emerald-500";
+      ? "bg-amber-950/400"
+      : "bg-emerald-950/400";
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft overflow-hidden flex flex-col">
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-soft overflow-hidden flex flex-col">
       <div className={`px-5 py-3.5 border-b ${headerStyle} relative`}>
         <div className={`absolute left-0 top-0 bottom-0 w-1 ${accentBar}`} />
         <div className="flex items-center justify-between pl-2">
-          <h2 className="font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
-          <span className="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-white/80 dark:bg-slate-800/80 text-sm font-bold text-slate-700 dark:text-slate-200 shadow-sm">
+          <h2 className="font-semibold text-slate-100">{title}</h2>
+          <span className="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-slate-800/80 text-sm font-bold text-slate-200 shadow-sm">
             {rows.length}
           </span>
         </div>
       </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[640px] overflow-y-auto flex-1">
+      <div className="divide-y divide-slate-800 max-h-[640px] overflow-y-auto flex-1">
         {rows.length === 0 && (
-          <div className="px-5 py-10 text-sm text-center text-slate-400 dark:text-slate-500">
+          <div className="px-5 py-10 text-sm text-center text-slate-500">
             {emptyText}
           </div>
         )}
         {rows.map((r) => (
           <div
             key={r.id}
-            className="group px-5 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition relative"
+            className="group px-5 py-3 hover:bg-slate-800/50 transition relative"
           >
             <Link href={`/members/${r.id}`} className="block">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
-                  <div className="font-medium text-slate-900 dark:text-slate-100 truncate group-hover:text-brand-600 dark:group-hover:text-brand-400 transition">
+                  <div className="font-medium text-slate-100 truncate group-hover:text-brand-400 transition">
                     {r.name}
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  <div className="text-xs text-slate-400 mt-0.5">
                     {r.plan} • ends {format(r.endDate, "dd MMM")}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
                   <StatusBadge status={status} />
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <div className="text-xs text-slate-400 mt-1">
                     {r.days < 0
                       ? `${Math.abs(r.days)}d ago`
                       : r.days === 0
@@ -285,7 +285,7 @@ function Column({
                 })}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1 rounded-full transition"
+                className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 bg-emerald-950/40 hover:bg-emerald-950/60 border border-emerald-800 px-2.5 py-1 rounded-full transition"
                 title="Send WhatsApp renewal reminder"
               >
                 <MessageCircle size={12} />
