@@ -7,6 +7,7 @@ import { GymProfileForm } from "@/components/GymProfileForm";
 import { StaffManager } from "@/components/StaffManager";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SignOutButton } from "@/components/SignOutButton";
+import { DeleteAccountDanger } from "@/components/DeleteAccountDanger";
 
 export const dynamic = "force-dynamic";
 
@@ -121,6 +122,17 @@ export default async function SettingsPage() {
             <SignOutButton />
           </div>
         </section>
+
+        {isOwner && (
+          <section>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-red-500 dark:text-red-400 mb-3 px-1">
+              Danger Zone
+            </h2>
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border-2 border-red-300 dark:border-red-900/60 shadow-soft p-7">
+              <DeleteAccountDanger gymName={gym.name} />
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
