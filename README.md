@@ -117,3 +117,5 @@ src/
 All prices are stored as **integer paise** (`pricePaise`, `pricePaidPaise`). Use `formatINR()` / `parseINR()` from `src/lib/currency.ts` for display and input — never do arithmetic on a formatted string.
 
 `Subscription.pricePaidPaise` is snapshotted at creation time so historical revenue stays correct even if you raise plan prices later.
+
+👨‍💻 Author - Saarth Vadalia
