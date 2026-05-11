@@ -120,13 +120,15 @@ export function CheckInScreen() {
       >
         <div
           className={`inline-flex items-center justify-center w-32 h-32 rounded-full shadow-lg ${
-            feedback.allowed ? "bg-emerald-50 dark:bg-emerald-950/400" : "bg-red-50 dark:bg-red-950/400"
+            feedback.allowed
+              ? "bg-emerald-500 dark:bg-emerald-500"
+              : "bg-red-500 dark:bg-red-500"
           }`}
         >
           {feedback.allowed ? (
-            <Check size={72} className="text-white" />
+            <Check size={72} strokeWidth={3} className="text-white" />
           ) : (
-            <X size={72} className="text-white" />
+            <X size={72} strokeWidth={3} className="text-white" />
           )}
         </div>
         <div
