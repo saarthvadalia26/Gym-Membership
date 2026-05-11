@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { formatINRCompact } from "@/lib/currency";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface MonthDatum {
   label: string;
@@ -20,7 +21,11 @@ export function CollectionsChart({ data }: Props) {
   const forecast = data.find((d) => d.isForecast);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft p-6 h-full"
+    >
       <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
         <div>
           <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -57,12 +62,24 @@ export function CollectionsChart({ data }: Props) {
                 onMouseEnter={() => setHoverIdx(idx)}
                 onMouseLeave={() => setHoverIdx(null)}
               >
-                {isHovered && (
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none animate-fade-in z-10">
-                    {d.label}: {formatINRCompact(d.paise)}
-                  </div>
-                )}
-                <div className="relative w-full flex justify-center" style={{ height: `${Math.max(heightPct, 2)}%` }}>
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, x: "-50%" }}
+                      animate={{ opacity: 1, y: 0, x: "-50%" }}
+                      exit={{ opacity: 0, y: 10, x: "-50%" }}
+                      className="absolute -top-1 left-1/2 bg-slate-900 dark:bg-slate-800 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none z-10"
+                    >
+                      {d.label}: {formatINRCompact(d.paise)}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <motion.div 
+                  initial={{ height: 0 }}
+                  animate={{ height: `${Math.max(heightPct, 2)}%` }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: idx * 0.1 }}
+                  className="relative w-full flex justify-center origin-bottom"
+                >
                   <div
                     className={
                       d.isForecast
@@ -72,7 +89,7 @@ export function CollectionsChart({ data }: Props) {
                           }`
                     }
                   />
-                </div>
+                </motion.div>
                 <div
                   className={`text-[10px] sm:text-xs font-medium ${
                     d.isForecast
@@ -88,7 +105,7 @@ export function CollectionsChart({ data }: Props) {
         </div>
       </div>
 
-      <div className="mt-5 pt-5 border-t border-slate-100 flex items-center gap-5 text-xs">
+      <div className="mt-5 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center gap-5 text-xs">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded bg-gradient-to-t from-brand-600 to-brand-400" />
           <span className="text-slate-500 dark:text-slate-400">Actual</span>
@@ -98,6 +115,7 @@ export function CollectionsChart({ data }: Props) {
           <span className="text-slate-500 dark:text-slate-400">Projected</span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
+

@@ -1,15 +1,13 @@
 import Link from "next/link";
 import { format, startOfMonth, endOfMonth, subMonths, addDays } from "date-fns";
-import { MessageCircle } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { requireGymId } from "@/lib/auth";
 import { computeStatus, daysRemaining, Status } from "@/lib/status";
-import { buildWhatsAppReminderLink } from "@/lib/whatsapp";
 import { StatsCards } from "@/components/StatsCards";
-import { StatusBadge } from "@/components/StatusBadge";
 import { CollectionsChart } from "@/components/CollectionsChart";
 import { BirthdaysToday } from "@/components/BirthdaysToday";
 import { TopReferrers } from "@/components/TopReferrers";
+import { DashboardColumns } from "@/components/DashboardColumns";
 
 export const dynamic = "force-dynamic";
 
@@ -25,22 +23,58 @@ type Row = {
 
 export default async function DashboardPage() {
   const gymId = await requireGymId();
-  const gym = await prisma.gym.findUniqueOrThrow({ where: { id: gymId } });
   const today = new Date();
 
-  const members = await prisma.member.findMany({
-    where: { gymId },
-    include: {
-      subscriptions: {
-        orderBy: { endDate: "desc" },
-        take: 1,
-        include: { plan: true },
+  // Fetch all data in parallel
+  const [
+    gym,
+    members,
+    totalMembers,
+    activeSubs,
+    expectedNext30,
+    referrerCounts,
+    recentSubs,
+  ] = await Promise.all([
+    prisma.gym.findUniqueOrThrow({ 
+      where: { id: gymId },
+      select: { name: true }
+    }),
+    prisma.member.findMany({
+      where: { gymId },
+      include: {
+        subscriptions: {
+          orderBy: { endDate: "desc" },
+          take: 1,
+          include: { plan: { select: { name: true } } },
+        },
       },
-    },
-  });
+    }),
+    prisma.member.count({ where: { gymId } }),
+    prisma.subscription.findMany({
+      where: { gymId, endDate: { gte: today } },
+      include: { plan: { select: { durationDays: true } } },
+    }),
+    prisma.subscription.findMany({
+      where: { gymId, endDate: { gte: today, lte: addDays(today, 30) } },
+      select: { pricePaidPaise: true },
+    }),
+    prisma.member.findMany({
+      where: { gymId, referrals: { some: {} } },
+      select: {
+        id: true,
+        fullName: true,
+        referralCode: true,
+        _count: { select: { referrals: true } },
+      },
+      take: 5,
+    }),
+    prisma.subscription.findMany({
+      where: { gymId, createdAt: { gte: startOfMonth(subMonths(today, 5)) } },
+      select: { createdAt: true, pricePaidPaise: true },
+    }),
+  ]);
 
-  // Birthdays today — match month+day, year-agnostic. Done in JS rather than
-  // SQL because Prisma doesn't expose EXTRACT() and the gym is small enough.
+  // Birthdays today
   const todayMonth = today.getMonth();
   const todayDay = today.getDate();
   const birthdaysToday = members
@@ -78,13 +112,6 @@ export default async function DashboardPage() {
   buckets.YELLOW.sort((a, b) => a.days - b.days);
   buckets.GREEN.sort((a, b) => a.days - b.days);
 
-  // Top-line stats
-  const totalMembers = await prisma.member.count({ where: { gymId } });
-
-  const activeSubs = await prisma.subscription.findMany({
-    where: { gymId, endDate: { gte: today } },
-    include: { plan: true },
-  });
   const mrrPaise = activeSubs.reduce((acc, s) => {
     if (s.plan.durationDays <= 0) return acc;
     return acc + Math.round((s.pricePaidPaise / s.plan.durationDays) * 30);
@@ -92,26 +119,11 @@ export default async function DashboardPage() {
 
   const expiringThisWeek = buckets.YELLOW.length;
 
-  const in30 = addDays(today, 30);
-  const expectedNext30 = await prisma.subscription.findMany({
-    where: { gymId, endDate: { gte: today, lte: in30 } },
-  });
   const expectedNext30DaysPaise = expectedNext30.reduce(
     (acc, s) => acc + s.pricePaidPaise,
     0
   );
 
-  // Top referrers — members with at least 1 referral, sorted by count desc
-  const referrerCounts = await prisma.member.findMany({
-    where: { gymId, referrals: { some: {} } },
-    select: {
-      id: true,
-      fullName: true,
-      referralCode: true,
-      _count: { select: { referrals: true } },
-    },
-    take: 5,
-  });
   const topReferrers = referrerCounts
     .map((r) => ({
       id: r.id,
@@ -119,16 +131,9 @@ export default async function DashboardPage() {
       referralCode: r.referralCode,
       count: r._count.referrals,
     }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 5);
+    .sort((a, b) => b.count - a.count);
 
-  // Collections chart — last 6 months actual + forecast for "Next 30d"
-  const sixMonthsAgo = startOfMonth(subMonths(today, 5));
-  const recentSubs = await prisma.subscription.findMany({
-    where: { gymId, createdAt: { gte: sixMonthsAgo } },
-    select: { createdAt: true, pricePaidPaise: true },
-  });
-
+  // Collections chart
   const monthly: { label: string; paise: number; isForecast?: boolean }[] = [];
   for (let i = 5; i >= 0; i--) {
     const monthStart = startOfMonth(subMonths(today, i));
@@ -145,17 +150,17 @@ export default async function DashboardPage() {
   });
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
           Dashboard
         </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-medium">
           {format(today, "EEEE, dd MMMM yyyy")}
         </p>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-8">
         <StatsCards
           stats={{
             totalMembers,
@@ -168,133 +173,15 @@ export default async function DashboardPage() {
 
       <BirthdaysToday members={birthdaysToday} gymName={gym.name} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 items-stretch">
         <div className="lg:col-span-2">
           <CollectionsChart data={monthly} />
         </div>
         <TopReferrers referrers={topReferrers} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Column
-          title="Expired / Overdue"
-          status="RED"
-          rows={buckets.RED}
-          emptyText="No expired members. 🎉"
-          gymName={gym.name}
-        />
-        <Column
-          title="Expiring Soon (≤5 days)"
-          status="YELLOW"
-          rows={buckets.YELLOW}
-          emptyText="No renewals due this week."
-          gymName={gym.name}
-        />
-        <Column
-          title="Active"
-          status="GREEN"
-          rows={buckets.GREEN}
-          emptyText="No active members yet."
-          gymName={gym.name}
-        />
-      </div>
+      <DashboardColumns buckets={buckets} gymName={gym.name} />
     </div>
   );
 }
 
-function Column({
-  title,
-  status,
-  rows,
-  emptyText,
-  gymName,
-}: {
-  title: string;
-  status: Status;
-  rows: Row[];
-  emptyText: string;
-  gymName: string;
-}) {
-  const headerStyle =
-    status === "RED"
-      ? "bg-red-50 dark:bg-red-950/30 border-red-900"
-      : status === "YELLOW"
-      ? "bg-amber-50 dark:bg-amber-950/30 border-amber-900"
-      : "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-900";
-
-  const accentBar =
-    status === "RED"
-      ? "bg-red-50 dark:bg-red-950/400"
-      : status === "YELLOW"
-      ? "bg-amber-50 dark:bg-amber-950/400"
-      : "bg-emerald-50 dark:bg-emerald-950/400";
-
-  return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft overflow-hidden flex flex-col">
-      <div className={`px-5 py-3.5 border-b ${headerStyle} relative`}>
-        <div className={`absolute left-0 top-0 bottom-0 w-1 ${accentBar}`} />
-        <div className="flex items-center justify-between pl-2">
-          <h2 className="font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
-          <span className="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-slate-800/80 text-sm font-bold text-slate-700 dark:text-slate-200 shadow-sm">
-            {rows.length}
-          </span>
-        </div>
-      </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[640px] overflow-y-auto flex-1">
-        {rows.length === 0 && (
-          <div className="px-5 py-10 text-sm text-center text-slate-500">
-            {emptyText}
-          </div>
-        )}
-        {rows.map((r) => (
-          <div
-            key={r.id}
-            className="group px-5 py-3 hover:bg-slate-50 dark:bg-slate-800/50 transition relative"
-          >
-            <Link href={`/members/${r.id}`} className="block">
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0 flex-1">
-                  <div className="font-medium text-slate-900 dark:text-slate-100 truncate group-hover:text-brand-600 dark:group-hover:text-brand-400 transition">
-                    {r.name}
-                  </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    {r.plan} • ends {format(r.endDate, "dd MMM")}
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <StatusBadge status={status} />
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    {r.days < 0
-                      ? `${Math.abs(r.days)}d ago`
-                      : r.days === 0
-                      ? "today"
-                      : `${r.days}d left`}
-                  </div>
-                </div>
-              </div>
-            </Link>
-            {status === "RED" && (
-              <a
-                href={buildWhatsAppReminderLink({
-                  memberName: r.name,
-                  memberPhone: r.phone,
-                  planName: r.plan,
-                  endDate: r.endDate,
-                  daysOverdue: Math.abs(r.days),
-                  gymName: gymName,
-                })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1 rounded-full transition"
-                title="Send WhatsApp renewal reminder"
-              >
-                <MessageCircle size={12} />
-                Send Reminder
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}

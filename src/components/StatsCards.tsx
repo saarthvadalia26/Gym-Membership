@@ -1,5 +1,8 @@
+"use client";
+
 import { Users, TrendingUp, Clock, CalendarClock } from "lucide-react";
 import { formatINRCompact } from "@/lib/currency";
+import { motion } from "framer-motion";
 
 interface Stats {
   totalMembers: number;
@@ -7,6 +10,21 @@ interface Stats {
   expiringThisWeek: number;
   expectedNext30DaysPaise: number;
 }
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  show: { y: 0, opacity: 1 },
+};
 
 export function StatsCards({ stats }: { stats: Stats }) {
   const cards = [
@@ -37,11 +55,18 @@ export function StatsCards({ stats }: { stats: Stats }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <motion.div 
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+    >
       {cards.map(({ label, value, icon: Icon, tint }) => (
-        <div
+        <motion.div
           key={label}
-          className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow hover:-translate-y-0.5 transition-all duration-200"
+          variants={item}
+          whileHover={{ y: -4, scale: 1.02 }}
+          className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-soft hover:shadow-glow transition-shadow duration-200"
         >
           <div className="flex items-center justify-between mb-3">
             <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -54,8 +79,9 @@ export function StatsCards({ stats }: { stats: Stats }) {
           <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             {value}
           </div>
-        </div>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
+
