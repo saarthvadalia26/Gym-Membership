@@ -28,6 +28,7 @@ export function CheckInScreen() {
   const [results, setResults] = useState<Member[]>([]);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<CheckInResult | null>(null);
+  const [processing, setProcessing] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -74,12 +75,17 @@ export function CheckInScreen() {
 
   async function handleScan(raw: string) {
     setScannerOpen(false);
+    // Show instant processing feedback — no blank wait
+    setProcessing(true);
+    setResults([]);
+    setQuery("");
     try {
       // QRs now encode `https://<host>/m/<token>` so phone cameras open them
       // as a link, but earlier QRs encoded just the token. Accept both.
       const match = raw.match(/\/m\/([^/?#]+)/);
       const token = (match ? match[1] : raw).trim();
       if (!token) {
+        setProcessing(false);
         toast.error("QR code is empty or unreadable");
         return;
       }
@@ -90,19 +96,34 @@ export function CheckInScreen() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
+        setProcessing(false);
         toast.error(err?.error ?? "Could not check in");
         return;
       }
       const data: CheckInResult = await res.json();
+      setProcessing(false);
       setFeedback(data);
-      setResults([]);
-      setQuery("");
     } catch (e) {
+      setProcessing(false);
       console.error("[checkin scan]", e);
       toast.error(
         e instanceof Error ? e.message : "Could not process the QR code"
       );
     }
+  }
+
+  if (processing) {
+    return (
+      <div className="rounded-3xl border-2 border-brand-400 bg-brand-50 dark:bg-brand-950/30 p-12 text-center shadow-soft animate-pulse">
+        <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-brand-400 shadow-lg">
+          <ScanLine size={64} className="text-white" />
+        </div>
+        <div className="text-3xl font-bold mt-6 text-brand-700 dark:text-brand-300 tracking-wide">
+          Scanning…
+        </div>
+        <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">Verifying membership, please wait.</p>
+      </div>
+    );
   }
 
   if (feedback) {

@@ -43,9 +43,10 @@ export async function POST(req: NextRequest) {
   const status = latest ? computeStatus(latest.endDate) : "RED";
   const allowed = status !== "RED";
 
-  await prisma.checkIn.create({
+  // Fire-and-forget: log the check-in without blocking the response
+  prisma.checkIn.create({
     data: { gymId, memberId: member.id, allowed },
-  });
+  }).catch(console.error);
 
   return NextResponse.json({
     allowed,
