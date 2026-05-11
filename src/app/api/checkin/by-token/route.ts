@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { computeStatus } from "@/lib/status";
 
 export const runtime = "nodejs";
@@ -9,12 +9,21 @@ export const runtime = "nodejs";
 const schema = z.object({ token: z.string().min(1) });
 
 /**
- * Check-in via QR code. The request must come from a logged-in gym admin
- * (so we know which gym is checking in), and the token must belong to a
- * member of THAT gym — no cross-tenant scanning.
+ * Check-in via QR code. Always returns JSON — never redirects.
+ * Using auth() directly instead of requireGymId() because requireGymId()
+ * calls redirect("/login") on auth failure, which returns HTML (not JSON)
+ * and breaks the client-side fetch error handler.
  */
 export async function POST(req: NextRequest) {
-  const gymId = await requireGymId();
+  const session = await auth();
+  const gymId = (session?.user as { gymId?: string } | undefined)?.gymId;
+  if (!gymId) {
+    return NextResponse.json(
+      { error: "Not authenticated — please log in again." },
+      { status: 401 }
+    );
+  }
+
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
