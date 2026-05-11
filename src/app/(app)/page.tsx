@@ -16,7 +16,7 @@ type Row = {
   name: string;
   phone: string;
   plan: string;
-  endDate: Date;
+  endDate: string; // ISO string — safe to pass across server→client boundary
   days: number;
   pricePaise: number;
 };
@@ -87,7 +87,7 @@ export default async function DashboardPage() {
       id: m.id,
       fullName: m.fullName,
       phoneNumber: m.phoneNumber,
-      dateOfBirth: m.dateOfBirth as Date,
+      dateOfBirth: (m.dateOfBirth as Date).toISOString(), // serialize for client boundary
     }));
 
   const buckets: Record<Status, Row[]> = { RED: [], YELLOW: [], GREEN: [] };
@@ -102,7 +102,7 @@ export default async function DashboardPage() {
       name: m.fullName,
       phone: m.phoneNumber,
       plan: sub.plan.name,
-      endDate: sub.endDate,
+      endDate: sub.endDate.toISOString(), // serialize Date for client boundary
       days,
       pricePaise: sub.pricePaidPaise,
     });

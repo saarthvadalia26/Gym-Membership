@@ -13,7 +13,7 @@ type Row = {
   name: string;
   phone: string;
   plan: string;
-  endDate: Date;
+  endDate: string; // ISO string from server
   days: number;
   pricePaise: number;
 };
@@ -131,7 +131,7 @@ function Column({
                     {r.name}
                   </div>
                   <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    {r.plan} • ends {format(r.endDate, "dd MMM")}
+                    {r.plan} • ends {format(new Date(r.endDate), "dd MMM")}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
@@ -154,7 +154,7 @@ function Column({
                   memberName: r.name,
                   memberPhone: r.phone,
                   planName: r.plan,
-                  endDate: r.endDate,
+                  endDate: new Date(r.endDate),
                   daysOverdue: Math.abs(r.days),
                   gymName: gymName,
                 })}

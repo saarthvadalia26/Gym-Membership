@@ -7,7 +7,7 @@ interface BirthdayMember {
   id: string;
   fullName: string;
   phoneNumber: string;
-  dateOfBirth: Date;
+  dateOfBirth: string; // ISO string from server
 }
 
 interface Props {
