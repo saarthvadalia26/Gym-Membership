@@ -38,13 +38,13 @@ export function StatsCards({ stats }: { stats: Stats }) {
       label: "Monthly Recurring Revenue",
       value: formatINRCompact(stats.mrrPaise),
       icon: TrendingUp,
-      tint: "bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
+      tint: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
     },
     {
       label: "Expiring This Week",
       value: stats.expiringThisWeek.toString(),
       icon: Clock,
-      tint: "bg-amber-950/60 text-amber-600 dark:text-amber-400",
+      tint: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400",
     },
     {
       label: "Expected Next 30 Days",
