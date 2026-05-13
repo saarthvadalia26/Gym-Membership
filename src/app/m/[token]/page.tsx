@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { format } from "date-fns";
-import { Logo } from "@/components/Logo";
 import {
   Calendar,
   Phone,
@@ -68,7 +68,14 @@ export default async function MemberPortalPage({
       <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12 animate-fade-in">
         {/* Gym header */}
         <div className="flex items-center gap-3 mb-8">
-          <Logo className="w-11 h-11 rounded-xl shadow-glow shrink-0" />
+          <Image
+            src="/logo.svg"
+            alt={member.gym.name}
+            width={44}
+            height={44}
+            className="rounded-xl shadow-glow shrink-0"
+            priority
+          />
           <div>
             <div className="font-bold text-slate-900 dark:text-slate-100">
               {member.gym.name}

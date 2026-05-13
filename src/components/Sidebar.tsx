@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Logo } from "@/components/Logo";
 import {
   LayoutDashboard,
   Users,
@@ -56,7 +56,14 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
       {/* Mobile top bar */}
       <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
-          <Logo className="w-8 h-8 rounded-lg" />
+          <Image
+            src="/logo.svg"
+            alt={gymName}
+            width={32}
+            height={32}
+            className="rounded-lg"
+            priority
+          />
           <div className="font-bold text-slate-900 dark:text-slate-100 truncate">
             {gymName}
           </div>
@@ -86,7 +93,14 @@ export function Sidebar({ gymName, role = "OWNER" }: SidebarProps) {
       >
         <div className="px-6 py-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
-            <Logo className="w-11 h-11 rounded-xl shadow-glow shrink-0" />
+            <Image
+              src="/logo.svg"
+              alt={gymName}
+              width={44}
+              height={44}
+              className="rounded-xl shadow-glow shrink-0"
+              priority
+            />
             <div className="min-w-0">
               <div className="font-bold text-slate-900 dark:text-slate-100 truncate leading-tight">
                 {gymName}

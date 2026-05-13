@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { Logo } from "@/components/Logo";
 import { RegisterForm } from "@/components/RegisterForm";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +19,14 @@ export default async function RegisterPage() {
       <div className="relative w-full max-w-md animate-slide-up">
         <div className="bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-slate-300 dark:border-slate-700/50 p-8 sm:p-10">
           <div className="flex flex-col items-center mb-7">
-            <Logo className="w-16 h-16 rounded-2xl shadow-glow mb-4" />
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={64}
+              height={64}
+              className="rounded-2xl shadow-glow mb-4"
+              priority
+            />
             <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               Create your gym
             </h1>
