@@ -49,9 +49,13 @@ export function buildWhatsAppReceiptLink(input: WhatsAppReceiptInput): string {
   return `https://wa.me/${phone}?text=${message}`;
 }
 
-/** Strips +, spaces, dashes from a phone number for use in wa.me URLs. */
 export function normalizePhoneForWhatsApp(phone: string): string {
-  return phone.replace(/[^\d]/g, "");
+  const digits = phone.replace(/[^\d]/g, "");
+  // If 10 digits (standard Indian mobile without country code), prepend 91
+  if (digits.length === 10) {
+    return `91${digits}`;
+  }
+  return digits;
 }
 
 interface WhatsAppReminderInput {

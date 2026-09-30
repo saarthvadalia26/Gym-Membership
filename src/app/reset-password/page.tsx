@@ -19,7 +19,7 @@ export default async function ResetPasswordPage({
   return (
     <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-brand-50 to-emerald-50 dark:from-[#0f172a] dark:via-[#0f1f04] dark:to-[#0f172a]" />
-      <div className="absolute top-0 -left-32 w-96 h-96 bg-brand-800 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-pulse" />
+      <div className="absolute top-0 -left-32 w-96 h-96 bg-brand-200 dark:bg-brand-700/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse" />
       <div className="absolute bottom-0 -right-32 w-96 h-96 bg-cyan-200 dark:bg-cyan-900/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse" />
 
       <div className="relative w-full max-w-md animate-slide-up">
@@ -42,7 +42,7 @@ export default async function ResetPasswordPage({
           </div>
 
           {!token ? (
-            <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-sm text-red-700">
+            <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-sm text-red-700 dark:text-red-300">
               Reset link is missing the token. Please request a new one from{" "}
               <Link href="/forgot-password" className="font-semibold underline">
                 Forgot password

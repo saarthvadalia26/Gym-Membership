@@ -33,6 +33,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Account not found" }, { status: 404 });
   }
 
+  if (user.role !== "OWNER") {
+    return NextResponse.json(
+      { error: "Forbidden: Only the gym owner can delete this account" },
+      { status: 403 }
+    );
+  }
+
   const ok = await bcrypt.compare(parsed.data.password, user.passwordHash);
   if (!ok) {
     return NextResponse.json({ error: "Password is incorrect" }, { status: 403 });

@@ -201,7 +201,7 @@ export function CheckInScreen() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search member by name or phone…"
-            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-400/50/30 focus:border-brand-400 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm placeholder:text-slate-400"
+            className="w-full pl-14 pr-5 py-5 text-xl border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-400/30 focus:border-brand-400 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm placeholder:text-slate-400"
           />
         </div>
         <button
@@ -256,10 +256,10 @@ export function CheckInScreen() {
                 <div
                   className={`text-sm font-bold px-3 py-1.5 rounded-full ${
                     status === "GREEN"
-                      ? "bg-emerald-950/60 text-emerald-700"
+                      ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400"
                       : status === "YELLOW"
-                      ? "bg-amber-950/60 text-amber-800"
-                      : "bg-red-100 text-red-700"
+                      ? "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-400"
+                      : "bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-400"
                   }`}
                 >
                   {status === "GREEN" ? "ACTIVE" : status === "YELLOW" ? "EXPIRING" : "EXPIRED"}

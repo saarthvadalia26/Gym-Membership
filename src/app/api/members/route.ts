@@ -6,6 +6,7 @@ import { requireGymId } from "@/lib/auth";
 import {
   generateReferralCode,
   normalizeReferralCode,
+  getReferralCodeVariants,
 } from "@/lib/referral";
 
 function generateAccessToken(): string {
@@ -49,7 +50,7 @@ export async function GET(req: NextRequest) {
     ? {
         gymId,
         OR: [
-          { fullName: { contains: q } },
+          { fullName: { contains: q, mode: "insensitive" as const } },
           { phoneNumber: { contains: q } },
         ],
       }
@@ -87,9 +88,9 @@ export async function POST(req: NextRequest) {
     // Look up referrer by code if provided
     let referredById: string | null = null;
     if (data.referredByCode && data.referredByCode.length > 0) {
-      const code = normalizeReferralCode(data.referredByCode);
+      const variants = getReferralCodeVariants(data.referredByCode);
       const referrer = await prisma.member.findFirst({
-        where: { gymId, referralCode: code },
+        where: { gymId, referralCode: { in: variants } },
         select: { id: true },
       });
       if (!referrer) {

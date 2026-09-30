@@ -8,7 +8,11 @@ export const dynamic = "force-dynamic";
 
 function csvEscape(value: string | null | undefined): string {
   if (value === null || value === undefined) return "";
-  const str = String(value);
+  let str = String(value);
+  // Neutralize CSV/formula injection (=, +, -, @, tab, CR)
+  if (/^[=+\-@\t\r]/.test(str)) {
+    str = `'${str}`;
+  }
   if (str.includes(",") || str.includes('"') || str.includes("\n")) {
     return `"${str.replace(/"/g, '""')}"`;
   }

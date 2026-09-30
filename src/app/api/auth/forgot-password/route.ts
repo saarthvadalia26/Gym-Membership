@@ -17,10 +17,16 @@ function hashToken(raw: string): string {
 }
 
 function getBaseUrl(req: NextRequest): string {
-  return (
-    process.env.NEXTAUTH_URL ??
-    `${req.headers.get("x-forwarded-proto") ?? "https"}://${req.headers.get("host")}`
-  );
+  if (process.env.NEXTAUTH_URL) {
+    return process.env.NEXTAUTH_URL.replace(/\/$/, "");
+  }
+  if (process.env.APP_URL) {
+    return process.env.APP_URL.replace(/\/$/, "");
+  }
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "localhost:3456";
+  const proto = req.headers.get("x-forwarded-proto") ?? (host.includes("localhost") ? "http" : "https");
+  const safeHost = host.replace(/[^a-zA-Z0-9.:_-]/g, "");
+  return `${proto}://${safeHost}`;
 }
 
 export async function POST(req: NextRequest) {

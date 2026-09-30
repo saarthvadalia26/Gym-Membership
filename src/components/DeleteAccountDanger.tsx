@@ -52,13 +52,13 @@ export function DeleteAccountDanger({ gymName }: Props) {
     <>
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-red-700">
+          <h3 className="text-sm font-semibold text-red-700 dark:text-red-400">
             Delete this account
           </h3>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
             Permanently delete <strong>{gymName}</strong> and everything in it
             — all members, plans, subscriptions, and check-in history.{" "}
-            <span className="font-semibold text-red-600">
+            <span className="font-semibold text-red-600 dark:text-red-400">
               This cannot be undone.
             </span>
           </p>
@@ -81,8 +81,8 @@ export function DeleteAccountDanger({ gymName }: Props) {
           />
           <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-6 animate-slide-up">
             <div className="flex items-start gap-4 mb-5">
-              <div className="shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                <AlertTriangle className="text-red-600" size={22} />
+              <div className="shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-950/60 flex items-center justify-center">
+                <AlertTriangle className="text-red-600 dark:text-red-400" size={22} />
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">

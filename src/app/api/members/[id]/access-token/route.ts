@@ -1,38 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
-function generateAccessToken(): string {
-  return crypto.randomBytes(24).toString("base64url");
-}
-
-/**
- * Generates (or rotates) the public access token for a member. The owner
- * can call this to:
- *   - Provision a token for a member created before this feature existed
- *   - Rotate a leaked token (the old link stops working immediately)
- */
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const gymId = await requireGymId();
-  const { id } = await params;
-
-  // Scoped check
-  const existing = await prisma.member.findFirst({ where: { id, gymId } });
-  if (!existing) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const session = await auth();
+  const gymId = (session?.user as { gymId?: string } | undefined)?.gymId;
+  if (!gymId) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const member = await prisma.member.update({
-    where: { id },
-    data: { accessToken: generateAccessToken() },
-    select: { id: true, accessToken: true },
+  const { id } = await params;
+  const member = await prisma.member.findFirst({
+    where: { id, gymId },
+    select: { id: true },
   });
 
-  return NextResponse.json(member);
+  if (!member) {
+    return NextResponse.json({ error: "Member not found" }, { status: 404 });
+  }
+
+  // 24-byte URL-safe base64 string
+  const accessToken = crypto.randomBytes(24).toString("base64url");
+
+  await prisma.member.update({
+    where: { id: member.id },
+    data: { accessToken },
+  });
+
+  return NextResponse.json({ ok: true, accessToken });
 }

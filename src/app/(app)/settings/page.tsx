@@ -44,7 +44,7 @@ export default async function SettingsPage() {
     <div className="max-w-2xl animate-fade-in">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-brand-50 dark:bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400">
+          <div className="p-2 rounded-lg bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400">
             <SettingsIcon size={20} />
           </div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">

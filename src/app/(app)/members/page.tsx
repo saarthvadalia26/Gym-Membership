@@ -20,7 +20,7 @@ export default async function MembersPage({
     ? {
         gymId,
         OR: [
-          { fullName: { contains: q } },
+          { fullName: { contains: q, mode: "insensitive" as const } },
           { phoneNumber: { contains: q } },
         ],
       }
@@ -79,7 +79,8 @@ export default async function MembersPage({
       </form>
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-sm min-w-[620px]">
           <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
             <tr>
               <th className="text-left px-5 py-3.5 font-semibold">Name</th>
@@ -168,6 +169,7 @@ export default async function MembersPage({
             })}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

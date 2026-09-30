@@ -35,7 +35,7 @@ export function ReferralCodeCard({
       {referralCode ? (
         <button
           onClick={copyCode}
-          className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-gradient-to-br from-brand-950/40 to-slate-800/40 border border-brand-200 dark:border-brand-800 hover:shadow-glow transition group"
+          className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-gradient-to-br from-brand-50 to-slate-50 dark:from-brand-950/40 dark:to-slate-800/40 border border-brand-200 dark:border-brand-800 hover:shadow-glow transition group"
         >
           <div className="text-left min-w-0">
             <div className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">
@@ -57,8 +57,8 @@ export function ReferralCodeCard({
       )}
 
       {creditsAvailable > 0 && (
-        <div className="mt-4 px-3.5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200">
-          <div className="flex items-center gap-2 text-emerald-800">
+        <div className="mt-4 px-3.5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+          <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
             <Gift size={14} />
             <span className="text-xs font-semibold uppercase tracking-wider">
               Reward unlocked

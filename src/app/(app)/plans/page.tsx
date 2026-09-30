@@ -1,13 +1,17 @@
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { PlansManager } from "@/components/PlansManager";
 
 export const dynamic = "force-dynamic";
 
 export default async function PlansPage() {
-  const gymId = await requireGymId();
+  const ctx = await requireSession();
+  if (ctx.role !== "OWNER") {
+    redirect("/");
+  }
   const plans = await prisma.plan.findMany({
-    where: { gymId },
+    where: { gymId: ctx.gymId },
     orderBy: { durationDays: "asc" },
   });
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { requireGymId } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { SubscriptionForm } from "@/components/SubscriptionForm";
 
 export const dynamic = "force-dynamic";
@@ -12,15 +12,19 @@ export default async function NewSubscriptionPage({
 }: {
   searchParams: Promise<{ memberId?: string }>;
 }) {
-  const gymId = await requireGymId();
+  const ctx = await requireSession();
   const { memberId } = await searchParams;
   if (!memberId) notFound();
 
-  const member = await prisma.member.findFirst({ where: { id: memberId, gymId } });
+  if (ctx.role !== "OWNER") {
+    redirect(`/members/${memberId}`);
+  }
+
+  const member = await prisma.member.findFirst({ where: { id: memberId, gymId: ctx.gymId } });
   if (!member) notFound();
 
   const plans = await prisma.plan.findMany({
-    where: { gymId },
+    where: { gymId: ctx.gymId },
     orderBy: { durationDays: "asc" },
   });
 

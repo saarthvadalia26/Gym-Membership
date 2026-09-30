@@ -126,7 +126,7 @@ export function SubscriptionForm({
 
   if (plans.length === 0) {
     return (
-      <div className="rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-5 text-amber-800">
+      <div className="rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-5 text-amber-800 dark:text-amber-200">
         You haven&apos;t created any plans yet.{" "}
         <a href="/plans" className="font-semibold underline">
           Create a plan first
@@ -197,7 +197,7 @@ export function SubscriptionForm({
         <div className="rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 p-4 space-y-2.5">
           <div className="flex items-center justify-between text-sm">
             <span className="text-slate-500 dark:text-slate-400">Plan price</span>
-            <span className="font-medium text-slate-900">
+            <span className="font-medium text-slate-900 dark:text-slate-100">
               {formatINR(planPaise)}
             </span>
           </div>
@@ -279,7 +279,7 @@ export function SubscriptionForm({
                 <button
                   type="button"
                   onClick={clearDiscount}
-                  className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 dark:bg-slate-700 rounded transition shrink-0"
+                  className="p-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition shrink-0"
                   title="Remove discount"
                 >
                   <X size={14} />

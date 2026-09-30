@@ -29,9 +29,29 @@ export function generateReferralCode(gymName: string): string {
 }
 
 /**
- * Normalize user input for matching: uppercase, strip whitespace.
- * Accepts both `IRON-7K9P` and `iron 7k9p` and `IRON7K9P`.
+ * Normalize user input for matching: uppercase, strip whitespace, and normalize hyphen.
+ * Accepts `IRON-7K9P`, `iron 7k9p`, and `IRON7K9P`.
  */
 export function normalizeReferralCode(input: string): string {
-  return input.replace(/\s+/g, "").toUpperCase();
+  const stripped = input.replace(/[\s-]+/g, "").toUpperCase();
+  if (stripped.length > 4) {
+    return `${stripped.slice(0, stripped.length - 4)}-${stripped.slice(stripped.length - 4)}`;
+  }
+  return stripped;
+}
+
+/**
+ * Returns candidate string variants for a referral code query
+ * so queries match regardless of hyphenation or spacing.
+ */
+export function getReferralCodeVariants(input: string): string[] {
+  const raw = input.trim().toUpperCase();
+  const stripped = raw.replace(/[\s-]+/g, "");
+  const normalized = normalizeReferralCode(input);
+
+  const variants = new Set<string>();
+  if (raw) variants.add(raw);
+  if (stripped) variants.add(stripped);
+  if (normalized) variants.add(normalized);
+  return Array.from(variants);
 }

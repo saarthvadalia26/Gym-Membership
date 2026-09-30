@@ -107,7 +107,8 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
   return (
     <div>
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-soft overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-sm min-w-[500px]">
           <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
             <tr>
               <th className="text-left px-5 py-3.5 font-semibold">Plan Name</th>
@@ -215,20 +216,20 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
                     <input
                       name="name"
                       placeholder="e.g. Half-Yearly"
-                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-sm flex-1 min-w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm flex-1 min-w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                       required
                     />
                     <input
                       name="price"
                       placeholder="Price (₹)"
-                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-sm w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-32 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                       required
                     />
                     <input
                       name="duration"
                       type="number"
                       placeholder="Days"
-                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-sm w-24 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+                      className="px-3 py-1.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg text-sm w-24 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
                       min={1}
                       required
                     />
@@ -253,6 +254,7 @@ export function PlansManager({ initialPlans }: { initialPlans: Plan[] }) {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {!creating && (

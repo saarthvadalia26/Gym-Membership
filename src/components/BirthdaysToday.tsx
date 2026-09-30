@@ -57,7 +57,7 @@ export function BirthdaysToday({ members, gymName }: Props) {
           return (
             <div
               key={m.id}
-              className="flex items-center justify-between gap-3 bg-white/70/60 rounded-xl px-4 py-3 border border-pink-100"
+              className="flex items-center justify-between gap-3 bg-white/80 dark:bg-slate-900/60 rounded-xl px-4 py-3 border border-pink-100 dark:border-pink-900/40"
             >
               <Link
                 href={`/members/${m.id}`}

@@ -11,9 +11,9 @@ const styles: Record<Status, string> = {
 };
 
 const dotStyles: Record<Status, string> = {
-  GREEN: "bg-emerald-50 dark:bg-emerald-950/400",
-  YELLOW: "bg-amber-50 dark:bg-amber-950/400",
-  RED: "bg-red-50 dark:bg-red-950/400",
+  GREEN: "bg-emerald-500 dark:bg-emerald-400",
+  YELLOW: "bg-amber-500 dark:bg-amber-400",
+  RED: "bg-red-500 dark:bg-red-400",
 };
 
 export function StatusBadge({

@@ -28,11 +28,10 @@ export function ConfirmDialog({
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onCancel();
-      if (e.key === "Enter") onConfirm();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel, onConfirm]);
+  }, [open, onCancel]);
 
   if (!open) return null;
 
@@ -53,8 +52,8 @@ export function ConfirmDialog({
 
         <div className="flex items-start gap-4">
           {tone === "danger" && (
-            <div className="shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-              <AlertTriangle className="text-red-600" size={22} />
+            <div className="shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-950/60 flex items-center justify-center">
+              <AlertTriangle className="text-red-600 dark:text-red-400" size={22} />
             </div>
           )}
           <div className="flex-1 min-w-0">

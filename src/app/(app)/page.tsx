@@ -66,6 +66,7 @@ export default async function DashboardPage() {
         referralCode: true,
         _count: { select: { referrals: true } },
       },
+      orderBy: { referrals: { _count: "desc" } },
       take: 5,
     }),
     prisma.subscription.findMany({
@@ -94,7 +95,18 @@ export default async function DashboardPage() {
 
   for (const m of members) {
     const sub = m.subscriptions[0];
-    if (!sub) continue;
+    if (!sub) {
+      buckets.RED.push({
+        id: m.id,
+        name: m.fullName,
+        phone: m.phoneNumber,
+        plan: "No Subscription",
+        endDate: m.joinDate.toISOString(),
+        days: -1,
+        pricePaise: 0,
+      });
+      continue;
+    }
     const status = computeStatus(sub.endDate, today);
     const days = daysRemaining(sub.endDate, today);
     buckets[status].push({

@@ -7,7 +7,15 @@ import {
   renderToBuffer,
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
-import { formatINR } from "./currency";
+
+// Use Rs. instead of ₹ symbol because standard Helvetica in react-pdf lacks the Rupee glyph
+function formatINRPdf(paise: number): string {
+  const formatted = new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(paise / 100);
+  return `Rs. ${formatted}`;
+}
 
 const styles = StyleSheet.create({
   page: {
@@ -158,14 +166,14 @@ function ReceiptDocument({ data }: { data: ReceiptData }) {
             <>
               <View style={styles.pricingRow}>
                 <Text style={styles.pricingLabel}>Subtotal</Text>
-                <Text style={styles.pricingValue}>{formatINR(subtotal)}</Text>
+                <Text style={styles.pricingValue}>{formatINRPdf(subtotal)}</Text>
               </View>
               <View style={styles.pricingRow}>
                 <Text style={styles.pricingDiscount}>
                   Discount{discountPercent > 0 ? ` (${discountPercent}%)` : ""}
                 </Text>
                 <Text style={styles.pricingDiscount}>
-                  − {formatINR(discount)}
+                  − {formatINRPdf(discount)}
                 </Text>
               </View>
               <View style={styles.pricingDivider} />
@@ -173,7 +181,7 @@ function ReceiptDocument({ data }: { data: ReceiptData }) {
           )}
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Total Paid</Text>
-            <Text style={styles.totalValue}>{formatINR(data.pricePaidPaise)}</Text>
+            <Text style={styles.totalValue}>{formatINRPdf(data.pricePaidPaise)}</Text>
           </View>
         </View>
 

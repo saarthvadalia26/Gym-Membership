@@ -32,13 +32,14 @@ export function ThemeToggle() {
           onClick={() => setTheme(value)}
           title={label}
           className={cn(
-            "flex items-center justify-center py-1.5 rounded-md text-xs font-medium transition",
+            "flex items-center justify-center gap-1.5 py-2 px-2.5 min-h-[36px] rounded-md text-xs font-medium transition",
             theme === value
               ? "bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-400 shadow-sm"
               : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
           )}
         >
-          <Icon size={14} />
+          <Icon size={15} />
+          <span className="hidden sm:inline text-[11px]">{label}</span>
         </button>
       ))}
     </div>

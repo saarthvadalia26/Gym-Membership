@@ -218,45 +218,47 @@ export default async function MemberDetailPage({
               </div>
             )}
             {member.subscriptions.length > 0 && (
-              <table className="w-full text-sm">
-                <thead className="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
-                  <tr>
-                    <th className="text-left py-2 font-semibold">Plan</th>
-                    <th className="text-left py-2 font-semibold">Start</th>
-                    <th className="text-left py-2 font-semibold">End</th>
-                    <th className="text-right py-2 font-semibold">Amount</th>
-                    <th className="text-right py-2 font-semibold">Receipt</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {member.subscriptions.map((s) => (
-                    <tr key={s.id}>
-                      <td className="py-2.5 text-slate-900 dark:text-slate-100">
-                        {s.plan.name}
-                      </td>
-                      <td className="py-2.5 text-slate-500 dark:text-slate-400">
-                        {format(s.startDate, "dd MMM yyyy")}
-                      </td>
-                      <td className="py-2.5 text-slate-500 dark:text-slate-400">
-                        {format(s.endDate, "dd MMM yyyy")}
-                      </td>
-                      <td className="py-2.5 text-right font-semibold text-slate-900 dark:text-slate-100">
-                        {formatINR(s.pricePaidPaise)}
-                      </td>
-                      <td className="py-2.5 text-right">
-                        <a
-                          href={`/api/receipt/${s.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-brand-600 dark:text-brand-400 hover:underline text-xs font-semibold"
-                        >
-                          PDF
-                        </a>
-                      </td>
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-sm min-w-[500px]">
+                  <thead className="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
+                    <tr>
+                      <th className="text-left py-2 font-semibold">Plan</th>
+                      <th className="text-left py-2 font-semibold">Start</th>
+                      <th className="text-left py-2 font-semibold">End</th>
+                      <th className="text-right py-2 font-semibold">Amount</th>
+                      <th className="text-right py-2 font-semibold">Receipt</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {member.subscriptions.map((s) => (
+                      <tr key={s.id}>
+                        <td className="py-2.5 text-slate-900 dark:text-slate-100">
+                          {s.plan.name}
+                        </td>
+                        <td className="py-2.5 text-slate-500 dark:text-slate-400">
+                          {format(s.startDate, "dd MMM yyyy")}
+                        </td>
+                        <td className="py-2.5 text-slate-500 dark:text-slate-400">
+                          {format(s.endDate, "dd MMM yyyy")}
+                        </td>
+                        <td className="py-2.5 text-right font-semibold text-slate-900 dark:text-slate-100">
+                          {formatINR(s.pricePaidPaise)}
+                        </td>
+                        <td className="py-2.5 text-right">
+                          <a
+                            href={`/api/receipt/${s.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-brand-600 dark:text-brand-400 hover:underline text-xs font-semibold"
+                          >
+                            PDF
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </div>
@@ -328,7 +330,7 @@ export default async function MemberDetailPage({
                     key={c.id}
                     className="flex items-center justify-between gap-2"
                   >
-                    <span className="text-slate-300">
+                    <span className="text-slate-600 dark:text-slate-400">
                       {format(c.timestamp, "dd MMM, hh:mm a")}
                     </span>
                     <span
